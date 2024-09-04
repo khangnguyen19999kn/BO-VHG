@@ -1,11 +1,16 @@
-import * as React from 'react'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { IAuthContext } from "@/context/auth";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import * as React from "react";
+import { Toaster } from "sonner";
 
-export const Route = createRootRoute({
+interface IRouterContext {
+  auth: IAuthContext;
+}
+export const Route = createRootRouteWithContext<IRouterContext>()({
   component: () => (
     <React.Fragment>
-      <div>Hello "__root"!</div>
       <Outlet />
+      <Toaster />
     </React.Fragment>
   ),
-})
+});

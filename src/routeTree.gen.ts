@@ -11,19 +11,72 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as IndexImport } from './routes/index'
 import { Route as LoginIndexImport } from './routes/login/index'
+import { Route as ProtectedRouteAuthImport } from './routes/_protected-route/_auth'
+import { Route as ProtectedRouteAuthLayoutImport } from './routes/_protected-route/_auth/_layout'
+import { Route as ProtectedRouteAuthLayoutUsersIndexImport } from './routes/_protected-route/_auth/_layout/users/index'
+import { Route as ProtectedRouteAuthLayoutProductsIndexImport } from './routes/_protected-route/_auth/_layout/products/index'
+import { Route as ProtectedRouteAuthLayoutProductsIdImport } from './routes/_protected-route/_auth/_layout/products/$id'
 
 // Create/Update Routes
+
+const IndexRoute = IndexImport.update({
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const LoginIndexRoute = LoginIndexImport.update({
   path: '/login/',
   getParentRoute: () => rootRoute,
 } as any)
 
+const ProtectedRouteAuthRoute = ProtectedRouteAuthImport.update({
+  id: '/_protected-route/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProtectedRouteAuthLayoutRoute = ProtectedRouteAuthLayoutImport.update({
+  id: '/_layout',
+  getParentRoute: () => ProtectedRouteAuthRoute,
+} as any)
+
+const ProtectedRouteAuthLayoutUsersIndexRoute =
+  ProtectedRouteAuthLayoutUsersIndexImport.update({
+    path: '/users/',
+    getParentRoute: () => ProtectedRouteAuthLayoutRoute,
+  } as any)
+
+const ProtectedRouteAuthLayoutProductsIndexRoute =
+  ProtectedRouteAuthLayoutProductsIndexImport.update({
+    path: '/products/',
+    getParentRoute: () => ProtectedRouteAuthLayoutRoute,
+  } as any)
+
+const ProtectedRouteAuthLayoutProductsIdRoute =
+  ProtectedRouteAuthLayoutProductsIdImport.update({
+    path: '/products/$id',
+    getParentRoute: () => ProtectedRouteAuthLayoutRoute,
+  } as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/_protected-route/_auth': {
+      id: '/_protected-route/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedRouteAuthImport
+      parentRoute: typeof rootRoute
+    }
     '/login/': {
       id: '/login/'
       path: '/login'
@@ -31,12 +84,50 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginIndexImport
       parentRoute: typeof rootRoute
     }
+    '/_protected-route/_auth/_layout': {
+      id: '/_protected-route/_auth/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutImport
+      parentRoute: typeof ProtectedRouteAuthImport
+    }
+    '/_protected-route/_auth/_layout/products/$id': {
+      id: '/_protected-route/_auth/_layout/products/$id'
+      path: '/products/$id'
+      fullPath: '/products/$id'
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutProductsIdImport
+      parentRoute: typeof ProtectedRouteAuthLayoutImport
+    }
+    '/_protected-route/_auth/_layout/products/': {
+      id: '/_protected-route/_auth/_layout/products/'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutProductsIndexImport
+      parentRoute: typeof ProtectedRouteAuthLayoutImport
+    }
+    '/_protected-route/_auth/_layout/users/': {
+      id: '/_protected-route/_auth/_layout/users/'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutUsersIndexImport
+      parentRoute: typeof ProtectedRouteAuthLayoutImport
+    }
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ LoginIndexRoute })
+export const routeTree = rootRoute.addChildren({
+  IndexRoute,
+  ProtectedRouteAuthRoute: ProtectedRouteAuthRoute.addChildren({
+    ProtectedRouteAuthLayoutRoute: ProtectedRouteAuthLayoutRoute.addChildren({
+      ProtectedRouteAuthLayoutProductsIdRoute,
+      ProtectedRouteAuthLayoutProductsIndexRoute,
+      ProtectedRouteAuthLayoutUsersIndexRoute,
+    }),
+  }),
+  LoginIndexRoute,
+})
 
 /* prettier-ignore-end */
 
@@ -46,11 +137,43 @@ export const routeTree = rootRoute.addChildren({ LoginIndexRoute })
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
+        "/_protected-route/_auth",
         "/login/"
+      ]
+    },
+    "/": {
+      "filePath": "index.tsx"
+    },
+    "/_protected-route/_auth": {
+      "filePath": "_protected-route/_auth.tsx",
+      "children": [
+        "/_protected-route/_auth/_layout"
       ]
     },
     "/login/": {
       "filePath": "login/index.tsx"
+    },
+    "/_protected-route/_auth/_layout": {
+      "filePath": "_protected-route/_auth/_layout.tsx",
+      "parent": "/_protected-route/_auth",
+      "children": [
+        "/_protected-route/_auth/_layout/products/$id",
+        "/_protected-route/_auth/_layout/products/",
+        "/_protected-route/_auth/_layout/users/"
+      ]
+    },
+    "/_protected-route/_auth/_layout/products/$id": {
+      "filePath": "_protected-route/_auth/_layout/products/$id.tsx",
+      "parent": "/_protected-route/_auth/_layout"
+    },
+    "/_protected-route/_auth/_layout/products/": {
+      "filePath": "_protected-route/_auth/_layout/products/index.tsx",
+      "parent": "/_protected-route/_auth/_layout"
+    },
+    "/_protected-route/_auth/_layout/users/": {
+      "filePath": "_protected-route/_auth/_layout/users/index.tsx",
+      "parent": "/_protected-route/_auth/_layout"
     }
   }
 }

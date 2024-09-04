@@ -9,13 +9,16 @@ export interface IAuthContext {
 const AuthContext = React.createContext<IAuthContext | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(true);
+  const login = () => {
+    setIsAuthenticated(true);
+  };
 
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated,
-        login: () => setIsAuthenticated(true),
+        login,
         logout: () => setIsAuthenticated(false),
       }}
     >

@@ -10,7 +10,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/context/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 const formLoginSchema = z.object({
@@ -19,6 +21,8 @@ const formLoginSchema = z.object({
 });
 type TFormLogin = z.infer<typeof formLoginSchema>;
 export default function Login() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
   const form = useForm<TFormLogin>({
     resolver: zodResolver(formLoginSchema),
     defaultValues: {
@@ -27,6 +31,8 @@ export default function Login() {
     },
   });
   const onSubmit = (data: TFormLogin) => {
+    login();
+    navigate({ to: "/products" });
     console.log(data);
   };
   return (
