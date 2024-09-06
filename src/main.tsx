@@ -2,9 +2,10 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import { routeTree } from "./routeTree.gen";
-import { useAuth, AuthProvider } from "@/context/auth";
+import { AuthProvider, useAuth } from "@/context/auth";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
+import { routeTree } from "./routeTree.gen";
 // Set up a Router instance
 const router = createRouter({
   routeTree,
@@ -35,12 +36,14 @@ function App() {
 }
 
 const rootElement = document.getElementById("root")!;
-
+const queryClient = new QueryClient();
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <React.StrictMode>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </React.StrictMode>
   );
 }
