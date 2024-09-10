@@ -9,12 +9,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import InputImage from "@/features/product-detail/components/input-image";
 import SelectSizeField from "@/features/product-detail/components/select-sizes-field";
 import SelectTypeField from "@/features/product-detail/components/select-type-field";
 import {
-  productDetailSchema,
   TProductDetail,
-} from "@/features/product-detail/product-detail-schema";
+  productDetailSchema,
+} from "@/features/product-detail/const/product-detail-schema";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
@@ -29,16 +31,19 @@ export default function ProductDetail({ title }: IProductDetailProps) {
       name: "",
       price: "",
       description: "",
-      image: [],
+      images: [],
       material: "",
       type: "",
       size: [],
+      link:""
     },
   });
 
   const handleSubmit = (data: TProductDetail) => {
     console.log(data);
   };
+  
+
   return (
     <div className="w-full h-full">
       <h1 className="text-3xl bold mb-5">{title}</h1>
@@ -74,24 +79,12 @@ export default function ProductDetail({ title }: IProductDetailProps) {
               </FormItem>
             )}
           />
-          <FormField
+          <InputImage
             control={form.control}
-            name={"image"}
-            render={({ field }) => (
-              <FormItem className="flex flex-col">
-                <FormLabel>Ảnh bìa</FormLabel>
-                <FormControl>
-                  <Input type="file" multiple onChange={(e) => {
-                    const files = e.target.files;
-                    if (files) {
-                      const blobs: Blob[] = Array.from(files);
-                      field.onChange(blobs);                   
-                  }} } />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            name="images"
+            label="Ảnh của sản phẫm"
           />
+          
           <SelectTypeField
             control={form.control}
             name="type"
@@ -111,6 +104,22 @@ export default function ProductDetail({ title }: IProductDetailProps) {
                 <FormControl>
                   <Input
                     placeholder="Nhập chất liệu này của sản phẩm"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="link"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Link Sale</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Nhập link mua sản phẩm"
                     {...field}
                   />
                 </FormControl>

@@ -12,6 +12,7 @@ import type {
   UseMutationResult,
 } from "@tanstack/react-query";
 import type {
+  ImagesControllerDeleteImageBody,
   ImagesControllerUploadFile200,
   ImagesControllerUploadFileBody,
 } from "../../model";
@@ -92,8 +93,15 @@ export const useImagesControllerUploadFile = <
 
   return useMutation(mutationOptions);
 };
-export const imagesControllerDeleteImage = () => {
-  return customInstance<void>({ url: `/images`, method: "DELETE" });
+export const imagesControllerDeleteImage = (
+  imagesControllerDeleteImageBody: ImagesControllerDeleteImageBody,
+) => {
+  return customInstance<void>({
+    url: `/images`,
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    data: imagesControllerDeleteImageBody,
+  });
 };
 
 export const getImagesControllerDeleteImageMutationOptions = <
@@ -103,22 +111,24 @@ export const getImagesControllerDeleteImageMutationOptions = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof imagesControllerDeleteImage>>,
     TError,
-    void,
+    { data: ImagesControllerDeleteImageBody },
     TContext
   >;
 }): UseMutationOptions<
   Awaited<ReturnType<typeof imagesControllerDeleteImage>>,
   TError,
-  void,
+  { data: ImagesControllerDeleteImageBody },
   TContext
 > => {
   const { mutation: mutationOptions } = options ?? {};
 
   const mutationFn: MutationFunction<
     Awaited<ReturnType<typeof imagesControllerDeleteImage>>,
-    void
-  > = () => {
-    return imagesControllerDeleteImage();
+    { data: ImagesControllerDeleteImageBody }
+  > = (props) => {
+    const { data } = props ?? {};
+
+    return imagesControllerDeleteImage(data);
   };
 
   return { mutationFn, ...mutationOptions };
@@ -127,7 +137,8 @@ export const getImagesControllerDeleteImageMutationOptions = <
 export type ImagesControllerDeleteImageMutationResult = NonNullable<
   Awaited<ReturnType<typeof imagesControllerDeleteImage>>
 >;
-
+export type ImagesControllerDeleteImageMutationBody =
+  ImagesControllerDeleteImageBody;
 export type ImagesControllerDeleteImageMutationError = unknown;
 
 export const useImagesControllerDeleteImage = <
@@ -137,13 +148,13 @@ export const useImagesControllerDeleteImage = <
   mutation?: UseMutationOptions<
     Awaited<ReturnType<typeof imagesControllerDeleteImage>>,
     TError,
-    void,
+    { data: ImagesControllerDeleteImageBody },
     TContext
   >;
 }): UseMutationResult<
   Awaited<ReturnType<typeof imagesControllerDeleteImage>>,
   TError,
-  void,
+  { data: ImagesControllerDeleteImageBody },
   TContext
 > => {
   const mutationOptions =

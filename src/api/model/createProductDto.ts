@@ -9,11 +9,9 @@
 export interface CreateProductDto {
   /** Description of the product */
   description: string;
-  /** Main image URL of the product */
-  image: string;
   /** Image URLs for the product */
   images: string[];
-  /** Material of the product */
+  /** Main image URL of the product */
   material: string;
   /** Name of the product */
   name: string;
