@@ -5,12 +5,15 @@
  * API documentation
  * OpenAPI spec version: 1.3
  */
+import type { ImageDto } from "./imageDto";
 
 export interface CreateProductDto {
   /** Description of the product */
   description: string;
-  /** Image URLs for the product */
-  images: string[];
+  /** Image details for the product */
+  images: ImageDto[];
+  /** Link to buy product */
+  link: string;
   /** Main image URL of the product */
   material: string;
   /** Name of the product */
@@ -19,8 +22,6 @@ export interface CreateProductDto {
   price: number;
   /** Available sizes of the product */
   sizes: string[];
-  /** Slug for the product, auto-generated from name */
-  slug: string;
   /** ID of the product type (e.g., 1 for Clothing) */
   typeId: number;
 }

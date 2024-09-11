@@ -18,11 +18,11 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import type { CreateProductDto } from "../../model";
+import type { CreateProductDto, TResponse } from "../../model";
 import { customInstance } from "../../mutator/custom-instance";
 
 export const productsControllerFindAll = (signal?: AbortSignal) => {
-  return customInstance<void>({ url: `/products`, method: "GET", signal });
+  return customInstance<TResponse>({ url: `/products`, method: "GET", signal });
 };
 
 export const getProductsControllerFindAllQueryKey = () => {

@@ -2,6 +2,7 @@ import Axios, { AxiosRequestConfig } from "axios";
 
 export const AXIOS_INSTANCE = Axios.create({
   baseURL: "http://localhost:6969",
+  withCredentials: true,
 });
 
 export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {

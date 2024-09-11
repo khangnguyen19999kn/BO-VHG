@@ -20,6 +20,7 @@ interface DataTableToolbarProps<TData> {
   debounceTime?: number;
   hideViewOption?: boolean;
   tableName: string;
+  toolbarCustom?: JSX.Element;
 }
 
 export function DataTableToolbar<TData>({
@@ -28,6 +29,7 @@ export function DataTableToolbar<TData>({
   endActions,
   hideViewOption,
   tableName,
+  toolbarCustom,
 }: Readonly<DataTableToolbarProps<TData>>) {
   const [isSearch, setIsSearch] = useState(window.screen.width > 768);
   const [searchValue, setSearchValue] = useState("");
@@ -106,6 +108,7 @@ export function DataTableToolbar<TData>({
             <span className="mr-2">"Download Excel"</span>
           </Button>
         </CSVLink>
+        {toolbarCustom}
       </div>
     </div>
   );

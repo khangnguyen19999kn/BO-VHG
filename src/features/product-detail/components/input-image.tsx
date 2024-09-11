@@ -3,6 +3,7 @@ import {
   useImagesControllerUploadFile,
 } from "@/api/endpoints/images/images";
 import { ImagesControllerUploadFile200DataItem } from "@/api/model";
+import LoadingSpin from "@/components/loading-spin";
 import {
   FormField,
   FormItem,
@@ -26,20 +27,21 @@ export default function InputImage<T extends FieldValues>({
     name,
   });
   const [imageList, setImageList] = useState<TImage[]>([]);
-  const { mutate: uploadImages } = useImagesControllerUploadFile({
-    mutation: {
-      onSuccess: (data) => {
-        if (data.data) {
-          const newImages = [...imageList, ...data.data];
-          setImageList(newImages);
-          field.onChange(newImages);
-        }
+  const { mutate: uploadImages, isPending: isImageUploadPending } =
+    useImagesControllerUploadFile({
+      mutation: {
+        onSuccess: (data) => {
+          if (data.data) {
+            const newImages = [...imageList, ...data.data];
+            setImageList(newImages);
+            field.onChange(newImages);
+          }
+        },
+        onError: () => {
+          toast.error("Upload lỗi, vui lòng thử lại");
+        },
       },
-      onError: () => {
-        toast.error("Upload lỗi, vui lòng thử lại");
-      },
-    },
-  });
+    });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -55,9 +57,9 @@ export default function InputImage<T extends FieldValues>({
       },
     });
   };
-  const removeImageInListImage = (public_Id: string) => {
+  const removeImageInListImage = (public_id: string) => {
     const imagesUpdate = imageList.filter(
-      (item) => item.public_Id !== public_Id
+      (item) => item.public_id !== public_id
     );
     setImageList(imagesUpdate);
     field.onChange(imagesUpdate);
@@ -65,7 +67,7 @@ export default function InputImage<T extends FieldValues>({
   const { mutate: deleteImage } = useImagesControllerDeleteImage({
     mutation: {
       onSuccess: (_, { data }) => {
-        const public_id = data.public_Id || "";
+        const public_id = data.public_id || "";
         removeImageInListImage(public_id);
         toast.success("Xóa ảnh thành công");
       },
@@ -78,7 +80,7 @@ export default function InputImage<T extends FieldValues>({
     if (!public_id) return;
     deleteImage({
       data: {
-        public_Id: public_id,
+        public_id: public_id,
       },
     });
   };
@@ -91,19 +93,23 @@ export default function InputImage<T extends FieldValues>({
           <FormLabel>{label}</FormLabel>
 
           <div className="flex gap-5 items-center w-full min-h-32">
-            {imageList.map((item) => (
-              <div className="relative">
-                <img key={item.public_Id} src={item.url} className="w-32"/>
-                <button
-                  type="button"
-                  onClick={() => handleRemoveImage(item.public_Id)}
-                  className="absolute top-1 right-1 bg-red-600 rounded-xl group hover:bg-red-200"
-                >
-                  <X className="text-white group-hover:text-red-600" />
-                </button>
-              </div>
-            ))}
-            <div className="w-14 h-14 bg-blue-500 rounded-full flex justify-center items-center">
+            {isImageUploadPending ? (
+              <LoadingSpin />
+            ) : (
+              imageList.map((item) => (
+                <div className="relative">
+                  <img key={item.public_id} src={item.url} className="w-32" />
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveImage(item.public_id)}
+                    className="absolute top-1 right-1 bg-red-600 rounded-xl group hover:bg-red-200"
+                  >
+                    <X className="text-white group-hover:text-red-600" />
+                  </button>
+                </div>
+              ))
+            )}
+            <div className="w-14 h-14 bg-blue-500 rounded-full flex justify-center items-center ">
               <label htmlFor="upload-image" className="cursor-pointer">
                 <Plus className="text-white" />
                 <input

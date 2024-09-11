@@ -18,7 +18,12 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import type { ChangePasswordDto, LoginDto, SignupDto } from "../../model";
+import type {
+  ApiResponseDto,
+  ChangePasswordDto,
+  LoginDto,
+  SignupDto,
+} from "../../model";
 import { customInstance } from "../../mutator/custom-instance";
 
 export const authControllerLogin = (loginDto: LoginDto) => {
@@ -86,6 +91,127 @@ export const useAuthControllerLogin = <
 
   return useMutation(mutationOptions);
 };
+export const authControllerGetProfile = (signal?: AbortSignal) => {
+  return customInstance<ApiResponseDto>({
+    url: `/auth/me`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getAuthControllerGetProfileQueryKey = () => {
+  return [`/auth/me`] as const;
+};
+
+export const getAuthControllerGetProfileQueryOptions = <
+  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authControllerGetProfile>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getAuthControllerGetProfileQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof authControllerGetProfile>>
+  > = ({ signal }) => authControllerGetProfile(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof authControllerGetProfile>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type AuthControllerGetProfileQueryResult = NonNullable<
+  Awaited<ReturnType<typeof authControllerGetProfile>>
+>;
+export type AuthControllerGetProfileQueryError = unknown;
+
+export function useAuthControllerGetProfile<
+  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authControllerGetProfile>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof authControllerGetProfile>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >;
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useAuthControllerGetProfile<
+  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authControllerGetProfile>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof authControllerGetProfile>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useAuthControllerGetProfile<
+  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authControllerGetProfile>>,
+      TError,
+      TData
+    >
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+export function useAuthControllerGetProfile<
+  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof authControllerGetProfile>>,
+      TError,
+      TData
+    >
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getAuthControllerGetProfileQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
 export const authControllerLogout = () => {
   return customInstance<void>({ url: `/auth/logout`, method: "POST" });
 };
@@ -277,119 +403,3 @@ export const useAuthControllerChangePassword = <
 
   return useMutation(mutationOptions);
 };
-export const authControllerGetProfile = (signal?: AbortSignal) => {
-  return customInstance<void>({ url: `/auth/profile`, method: "GET", signal });
-};
-
-export const getAuthControllerGetProfileQueryKey = () => {
-  return [`/auth/profile`] as const;
-};
-
-export const getAuthControllerGetProfileQueryOptions = <
-  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof authControllerGetProfile>>,
-      TError,
-      TData
-    >
-  >;
-}) => {
-  const { query: queryOptions } = options ?? {};
-
-  const queryKey =
-    queryOptions?.queryKey ?? getAuthControllerGetProfileQueryKey();
-
-  const queryFn: QueryFunction<
-    Awaited<ReturnType<typeof authControllerGetProfile>>
-  > = ({ signal }) => authControllerGetProfile(signal);
-
-  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
-    Awaited<ReturnType<typeof authControllerGetProfile>>,
-    TError,
-    TData
-  > & { queryKey: QueryKey };
-};
-
-export type AuthControllerGetProfileQueryResult = NonNullable<
-  Awaited<ReturnType<typeof authControllerGetProfile>>
->;
-export type AuthControllerGetProfileQueryError = unknown;
-
-export function useAuthControllerGetProfile<
-  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
-  TError = unknown,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof authControllerGetProfile>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
-        Awaited<ReturnType<typeof authControllerGetProfile>>,
-        TError,
-        TData
-      >,
-      "initialData"
-    >;
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
-export function useAuthControllerGetProfile<
-  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof authControllerGetProfile>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
-        Awaited<ReturnType<typeof authControllerGetProfile>>,
-        TError,
-        TData
-      >,
-      "initialData"
-    >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
-export function useAuthControllerGetProfile<
-  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof authControllerGetProfile>>,
-      TError,
-      TData
-    >
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-export function useAuthControllerGetProfile<
-  TData = Awaited<ReturnType<typeof authControllerGetProfile>>,
-  TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof authControllerGetProfile>>,
-      TError,
-      TData
-    >
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getAuthControllerGetProfileQueryOptions(options);
-
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: QueryKey;
-  };
-
-  query.queryKey = queryOptions.queryKey;
-
-  return query;
-}

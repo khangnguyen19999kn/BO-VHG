@@ -7,6 +7,6 @@
  */
 
 export type ImagesControllerUploadFile200DataItem = {
-  public_Id?: string;
+  public_id?: string;
   url?: string;
 };

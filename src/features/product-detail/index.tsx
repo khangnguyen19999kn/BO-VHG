@@ -16,15 +16,20 @@ import {
   TProductDetail,
   productDetailSchema,
 } from "@/features/product-detail/const/product-detail-schema";
+import useCreateUpdateProduct from "@/features/product-detail/hooks/useCreateUpdateProduct";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
 interface IProductDetailProps {
   title: string;
+  typePage: "create" | "update";
 }
 
-export default function ProductDetail({ title }: IProductDetailProps) {
+export default function ProductDetail({
+  title,
+  typePage,
+}: IProductDetailProps) {
   const form = useForm<TProductDetail>({
     resolver: zodResolver(productDetailSchema),
     defaultValues: {
@@ -34,15 +39,15 @@ export default function ProductDetail({ title }: IProductDetailProps) {
       images: [],
       material: "",
       type: "",
-      size: [],
-      link:""
+      sizes: [],
+      link: "",
     },
   });
+  const { handleFormSubmit } = useCreateUpdateProduct({ type: typePage });
 
   const handleSubmit = (data: TProductDetail) => {
-    console.log(data);
+    handleFormSubmit(data);
   };
-  
 
   return (
     <div className="w-full h-full">
@@ -84,7 +89,7 @@ export default function ProductDetail({ title }: IProductDetailProps) {
             name="images"
             label="Ảnh của sản phẫm"
           />
-          
+
           <SelectTypeField
             control={form.control}
             name="type"
@@ -92,7 +97,7 @@ export default function ProductDetail({ title }: IProductDetailProps) {
           />
           <SelectSizeField
             control={form.control}
-            name="size"
+            name="sizes"
             label="Chọn những size khả dụng cho sản phẩm"
           />
           <FormField
@@ -118,10 +123,7 @@ export default function ProductDetail({ title }: IProductDetailProps) {
               <FormItem>
                 <FormLabel>Link Sale</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Nhập link mua sản phẩm"
-                    {...field}
-                  />
+                  <Input placeholder="Nhập link mua sản phẩm" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -132,7 +134,7 @@ export default function ProductDetail({ title }: IProductDetailProps) {
             name="description"
             label="Mô tả sản phẩm"
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{typePage === "create" ? "Tạo" : "Lưu"}</Button>
         </form>
       </Form>
     </div>

@@ -17,7 +17,8 @@ import { Route as ProtectedRouteAuthImport } from './routes/_protected-route/_au
 import { Route as ProtectedRouteAuthLayoutImport } from './routes/_protected-route/_auth/_layout'
 import { Route as ProtectedRouteAuthLayoutUsersIndexImport } from './routes/_protected-route/_auth/_layout/users/index'
 import { Route as ProtectedRouteAuthLayoutProductsIndexImport } from './routes/_protected-route/_auth/_layout/products/index'
-import { Route as ProtectedRouteAuthLayoutProductsIdImport } from './routes/_protected-route/_auth/_layout/products/$id'
+import { Route as ProtectedRouteAuthLayoutProductsCreateImport } from './routes/_protected-route/_auth/_layout/products/create'
+import { Route as ProtectedRouteAuthLayoutProductsEditIdImport } from './routes/_protected-route/_auth/_layout/products/edit/$id'
 
 // Create/Update Routes
 
@@ -53,9 +54,15 @@ const ProtectedRouteAuthLayoutProductsIndexRoute =
     getParentRoute: () => ProtectedRouteAuthLayoutRoute,
   } as any)
 
-const ProtectedRouteAuthLayoutProductsIdRoute =
-  ProtectedRouteAuthLayoutProductsIdImport.update({
-    path: '/products/$id',
+const ProtectedRouteAuthLayoutProductsCreateRoute =
+  ProtectedRouteAuthLayoutProductsCreateImport.update({
+    path: '/products/create',
+    getParentRoute: () => ProtectedRouteAuthLayoutRoute,
+  } as any)
+
+const ProtectedRouteAuthLayoutProductsEditIdRoute =
+  ProtectedRouteAuthLayoutProductsEditIdImport.update({
+    path: '/products/edit/$id',
     getParentRoute: () => ProtectedRouteAuthLayoutRoute,
   } as any)
 
@@ -91,11 +98,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRouteAuthLayoutImport
       parentRoute: typeof ProtectedRouteAuthImport
     }
-    '/_protected-route/_auth/_layout/products/$id': {
-      id: '/_protected-route/_auth/_layout/products/$id'
-      path: '/products/$id'
-      fullPath: '/products/$id'
-      preLoaderRoute: typeof ProtectedRouteAuthLayoutProductsIdImport
+    '/_protected-route/_auth/_layout/products/create': {
+      id: '/_protected-route/_auth/_layout/products/create'
+      path: '/products/create'
+      fullPath: '/products/create'
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutProductsCreateImport
       parentRoute: typeof ProtectedRouteAuthLayoutImport
     }
     '/_protected-route/_auth/_layout/products/': {
@@ -112,6 +119,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRouteAuthLayoutUsersIndexImport
       parentRoute: typeof ProtectedRouteAuthLayoutImport
     }
+    '/_protected-route/_auth/_layout/products/edit/$id': {
+      id: '/_protected-route/_auth/_layout/products/edit/$id'
+      path: '/products/edit/$id'
+      fullPath: '/products/edit/$id'
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutProductsEditIdImport
+      parentRoute: typeof ProtectedRouteAuthLayoutImport
+    }
   }
 }
 
@@ -121,9 +135,10 @@ export const routeTree = rootRoute.addChildren({
   IndexRoute,
   ProtectedRouteAuthRoute: ProtectedRouteAuthRoute.addChildren({
     ProtectedRouteAuthLayoutRoute: ProtectedRouteAuthLayoutRoute.addChildren({
-      ProtectedRouteAuthLayoutProductsIdRoute,
+      ProtectedRouteAuthLayoutProductsCreateRoute,
       ProtectedRouteAuthLayoutProductsIndexRoute,
       ProtectedRouteAuthLayoutUsersIndexRoute,
+      ProtectedRouteAuthLayoutProductsEditIdRoute,
     }),
   }),
   LoginIndexRoute,
@@ -158,13 +173,14 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected-route/_auth/_layout.tsx",
       "parent": "/_protected-route/_auth",
       "children": [
-        "/_protected-route/_auth/_layout/products/$id",
+        "/_protected-route/_auth/_layout/products/create",
         "/_protected-route/_auth/_layout/products/",
-        "/_protected-route/_auth/_layout/users/"
+        "/_protected-route/_auth/_layout/users/",
+        "/_protected-route/_auth/_layout/products/edit/$id"
       ]
     },
-    "/_protected-route/_auth/_layout/products/$id": {
-      "filePath": "_protected-route/_auth/_layout/products/$id.tsx",
+    "/_protected-route/_auth/_layout/products/create": {
+      "filePath": "_protected-route/_auth/_layout/products/create.tsx",
       "parent": "/_protected-route/_auth/_layout"
     },
     "/_protected-route/_auth/_layout/products/": {
@@ -173,6 +189,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected-route/_auth/_layout/users/": {
       "filePath": "_protected-route/_auth/_layout/users/index.tsx",
+      "parent": "/_protected-route/_auth/_layout"
+    },
+    "/_protected-route/_auth/_layout/products/edit/$id": {
+      "filePath": "_protected-route/_auth/_layout/products/edit/$id.tsx",
       "parent": "/_protected-route/_auth/_layout"
     }
   }

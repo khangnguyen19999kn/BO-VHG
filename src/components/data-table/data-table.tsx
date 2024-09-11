@@ -11,24 +11,40 @@ import {
   SortingState,
   useReactTable,
   VisibilityState,
-} from '@tanstack/react-table';
-import * as React from 'react';
+} from "@tanstack/react-table";
+import * as React from "react";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-import { DataTableToolbar } from './data-table-toolbar';
-import { DataTablePagination } from './date-table-pagination';
+import { DataTableToolbar } from "./data-table-toolbar";
+import { DataTablePagination } from "./date-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   tableName: string;
+  toolbarCustom?: JSX.Element;
 }
 
-export function DataTable<TData, TValue>({ columns, data, tableName }: Readonly<DataTableProps<TData, TValue>>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  tableName,
+  toolbarCustom,
+}: Readonly<DataTableProps<TData, TValue>>) {
   const [rowSelection, setRowSelection] = React.useState({});
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   const table = useReactTable({
@@ -55,7 +71,7 @@ export function DataTable<TData, TValue>({ columns, data, tableName }: Readonly<
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} tableName={tableName} />
+      <DataTableToolbar table={table} tableName={tableName} toolbarCustom={toolbarCustom}/>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -64,7 +80,12 @@ export function DataTable<TData, TValue>({ columns, data, tableName }: Readonly<
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} colSpan={header.colSpan}>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
                   );
                 })}
@@ -74,17 +95,26 @@ export function DataTable<TData, TValue>({ columns, data, tableName }: Readonly<
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="text-center">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell className="h-24 text-center" colSpan={columns.length}>
+                <TableCell
+                  className="h-24 text-center"
+                  colSpan={columns.length}
+                >
                   No results.
                 </TableCell>
               </TableRow>

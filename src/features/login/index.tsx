@@ -1,3 +1,4 @@
+import { useAuthControllerLogin } from "@/api/endpoints/auth/auth";
 import AnimatedGridPattern from "@/components/animated-grid-pattern";
 import TypingAnimation from "@/components/typing-animation";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import { useAuth } from "@/context/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 const formLoginSchema = z.object({
   username: z.string(),
@@ -23,6 +25,19 @@ type TFormLogin = z.infer<typeof formLoginSchema>;
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const { mutate: loginMutation } = useAuthControllerLogin({
+    mutation: {
+      onSuccess: () => {
+        login();
+        navigate({ to: "/products" });
+        toast.success("Đăng nhập thành công");
+      },
+
+      onError: () => {
+        toast.error("Đăng nhập thất bại");
+      },
+    },
+  });
   const form = useForm<TFormLogin>({
     resolver: zodResolver(formLoginSchema),
     defaultValues: {
@@ -31,9 +46,7 @@ export default function Login() {
     },
   });
   const onSubmit = (data: TFormLogin) => {
-    login();
-    navigate({ to: "/products" });
-    console.log(data);
+    loginMutation({ data });
   };
   return (
     <div className="w-full h-screen flex">

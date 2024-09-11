@@ -6,6 +6,10 @@
  * OpenAPI spec version: 1.3
  */
 
-export type ImagesControllerDeleteImageBody = {
-  public_id?: string;
-};
+export interface UserProfileDto {
+  exp: number;
+  iat: number;
+  name: string;
+  sub: number;
+  username: string;
+}
