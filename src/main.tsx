@@ -1,5 +1,5 @@
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import ReactDOM from "react-dom/client";
 
 import { AuthProvider, useAuth } from "@/context/auth";
@@ -11,7 +11,8 @@ const router = createRouter({
   routeTree,
   defaultPreload: "intent",
   context: {
-    auth: undefined!, // This will be set after we wrap the app in an AuthProvider
+    auth: undefined!,
+    queryClient: new QueryClient(),
   },
 });
 
@@ -24,7 +25,15 @@ declare module "@tanstack/react-router" {
 
 function InnerApp() {
   const auth = useAuth();
-  return <RouterProvider router={router} context={{ auth }} />;
+  const routerContext = useMemo(() => {
+    return {
+      auth,
+    };
+  }, [auth]);
+  useEffect(() => {
+    router.invalidate();
+  }, [routerContext]);
+  return <RouterProvider router={router} context={routerContext} />;
 }
 
 function App() {
