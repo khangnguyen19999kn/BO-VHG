@@ -1,6 +1,4 @@
 import { useAuthControllerLogin } from "@/api/endpoints/auth/auth";
-import AnimatedGridPattern from "@/components/animated-grid-pattern";
-import TypingAnimation from "@/components/typing-animation";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -50,12 +48,12 @@ export default function Login() {
   };
   return (
     <div className="w-full h-screen flex">
-      <div className="w-1/2 h-full relative">
+      {/* <div className="w-1/2 h-full relative">
         <AnimatedGridPattern />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <TypingAnimation text="VHG Tailor Back Office" />
         </div>
-      </div>
+      </div> */}
       <div className=" w-1/2 h-full bg-slate-500 flex justify-center items-center">
         <Form {...form}>
           <form

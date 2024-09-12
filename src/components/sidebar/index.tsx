@@ -1,5 +1,8 @@
+import { useAuthControllerLogout } from "@/api/endpoints/auth/auth";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/auth";
 import { Link } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 export default function SideBar() {
   const itemsNavbar = [
@@ -12,6 +15,22 @@ export default function SideBar() {
       path: "/users",
     },
   ];
+  const { logout } = useAuth();
+  const { mutate: authLogout } = useAuthControllerLogout({
+    mutation: {
+      onSuccess: () => {
+        logout();
+        toast.success("Đăng xuất thành công");
+      },
+
+      onError: () => {
+        toast.error("Đăng xuất thất bại");
+      },
+    },
+  });
+  const handleLogout = () => {
+    authLogout();
+  };
   return (
     <div className="w-56 bg-red-900 h-screen py-16 p-1 sticky top-0">
       <div className="relative w-full h-full flex flex-col gap-2 ">
@@ -28,7 +47,11 @@ export default function SideBar() {
             <p className="font-semibold">Xin chào </p>
             <p className="bold">Admin</p>
           </div>
-          <Button className="w-full" variant={"destructive"}>
+          <Button
+            className="w-full"
+            variant={"destructive"}
+            onClick={handleLogout}
+          >
             Log out
           </Button>
         </div>
