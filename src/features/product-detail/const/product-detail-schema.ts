@@ -12,7 +12,7 @@ export const productDetailSchema = z.object({
   images: z.array(imageSchema).min(1, "Hình ảnh sản phẩm là bắt buộc"),
   material: z.string().min(1, "Chất liệu sản phẩm là bắt buộc"),
   sizes: z.array(z.string().min(1, "Chọn ít nhất 1 size")),
-  type: z.string().min(1, "Loại sản phẩm là bắt buộc"),
+  typeId: z.string().min(1, "Loại sản phẩm là bắt buộc"),
   link: z.string().min(1, "Link sản phẩm là bắt buộc"),
 });
 

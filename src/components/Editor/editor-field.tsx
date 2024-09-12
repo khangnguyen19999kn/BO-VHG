@@ -149,7 +149,7 @@ export default function EditorField<T extends FieldValues>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Editor {...field} getSunEditorInstance={getSunEditorInstance} />
+            <Editor {...field} getSunEditorInstance={getSunEditorInstance} defaultValue={field.value} />
           </FormControl>
           <FormMessage />
         </FormItem>

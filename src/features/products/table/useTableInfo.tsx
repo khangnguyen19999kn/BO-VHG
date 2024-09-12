@@ -1,4 +1,8 @@
 import {
+  useProductsControllerDelete,
+  useProductsControllerFindAll,
+} from "@/api/endpoints/products/products";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -11,8 +15,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
+
 import { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Trash } from "lucide-react";
+import { toast } from "sonner";
 
 export type TColumnProductsTable = {
   id: string;
@@ -24,9 +30,25 @@ export type TColumnProductsTable = {
   type: string;
   viewCount: number;
 };
+export default function useTableInfo() {
+  const { data, refetch } = useProductsControllerFindAll();
+  const dataTable = data?.data;
+  const { mutate: deleteProduct } = useProductsControllerDelete({
+    mutation: {
+      onSuccess: () => {
+        toast.success("Xóa sản phẩm thành công");
+        refetch();
+      },
+      onError: () => {
+        toast.error("Xóa sản phẩm thất bai");
+      },
+    },
+  });
+  const handleDelete = (id: string) => {
+    deleteProduct({ id });
+  };
 
-export const columnsTableProducts: ColumnDef<Partial<TColumnProductsTable>>[] =
-  [
+  const columnsTableProducts: ColumnDef<Partial<TColumnProductsTable>>[] = [
     {
       accessorKey: "id",
       header: "ID",
@@ -65,14 +87,20 @@ export const columnsTableProducts: ColumnDef<Partial<TColumnProductsTable>>[] =
       cell: ({ row }) => (
         <div className="flex gap-2">
           <Link to={`/products/edit/${row.getValue("id")}`}>
-            <Button variant="outline" className="bg-yellow-200 flex gap-1 bold items-center">
+            <Button
+              variant="outline"
+              className="bg-yellow-200 flex gap-1 bold items-center"
+            >
               <Pencil />
               <p>Edit</p>
             </Button>
           </Link>
           <AlertDialog>
             <AlertDialogTrigger>
-              <Button variant={"destructive"} className="flex gap-1 bold items-center">
+              <Button
+                variant={"destructive"}
+                className="flex gap-1 bold items-center"
+              >
                 <Trash />
                 <p>Delete</p>
               </Button>
@@ -89,7 +117,10 @@ export const columnsTableProducts: ColumnDef<Partial<TColumnProductsTable>>[] =
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction className="bg-red-600 border hover:bg-slate-50 hover:border-red-500 hover:text-red-500">
+                <AlertDialogAction
+                  className="bg-red-600 border hover:bg-slate-50 hover:border-red-500 hover:text-red-500"
+                  onClick={() => handleDelete(row.getValue("id"))}
+                >
                   Delete
                 </AlertDialogAction>
               </AlertDialogFooter>
@@ -99,3 +130,5 @@ export const columnsTableProducts: ColumnDef<Partial<TColumnProductsTable>>[] =
       ),
     },
   ];
+  return { columnsTableProducts, dataTable };
+}

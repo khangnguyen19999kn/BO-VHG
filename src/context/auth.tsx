@@ -17,7 +17,6 @@ function setStoredUser(user: string | null) {
   if (user) {
     localStorage.setItem(key, user);
   } else {
-    console.log(12345);
     localStorage.removeItem(key);
   }
 }
@@ -52,7 +51,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(data.data.username);
       login();
       setStoredUser(data.data.username);
+      return;
     }
+    logout();
   }, [data, login, isSuccess]);
 
   return (

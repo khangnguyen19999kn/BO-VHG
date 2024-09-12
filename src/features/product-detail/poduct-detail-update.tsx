@@ -1,3 +1,4 @@
+import { getProductsControllerFindOneQueryOptions } from "@/api/endpoints/products/products";
 import EditorField from "@/components/Editor/editor-field";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,36 +18,39 @@ import {
   productDetailSchema,
 } from "@/features/product-detail/const/product-detail-schema";
 import useCreateUpdateProduct from "@/features/product-detail/hooks/useCreateUpdateProduct";
+import { Route } from "@/routes/_protected-route/_auth/_layout/products/edit/$id";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 
-interface IProductDetailProps {
+export interface IProductDetailProps {
   title: string;
   typePage: "create" | "update";
 }
 
-export default function ProductDetail({
+export default function ProductDetailUpdate({
   title,
   typePage,
 }: IProductDetailProps) {
+  const postId = Route.useParams().id;
+  const { data: post } = useSuspenseQuery(
+    getProductsControllerFindOneQueryOptions(postId)
+  );
+  const defaultValues: TProductDetail = {
+    ...post.data,
+    price: post.data.price.toString(),
+    typeId: post.data.typeId.toString(),
+  
+  };
   const form = useForm<TProductDetail>({
     resolver: zodResolver(productDetailSchema),
-    defaultValues: {
-      name: "",
-      price: "",
-      description: "",
-      images: [],
-      material: "",
-      type: "",
-      sizes: [],
-      link: "",
-    },
+    defaultValues,
   });
   const { handleFormSubmit } = useCreateUpdateProduct({ type: typePage });
 
   const handleSubmit = (data: TProductDetail) => {
-    handleFormSubmit(data);
+    handleFormSubmit(data, postId);
   };
 
   return (
@@ -92,7 +96,7 @@ export default function ProductDetail({
 
           <SelectTypeField
             control={form.control}
-            name="type"
+            name="typeId"
             label="Loại sản phẫm"
           />
           <SelectSizeField

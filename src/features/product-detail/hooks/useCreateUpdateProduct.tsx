@@ -41,7 +41,7 @@ export default function useCreateUpdateProduct({
     return {
       ...data,
       price: Number(data.price),
-      typeId: Number(data.type),
+      typeId: Number(data.typeId),
     };
   };
   const handleFormSubmit = (data: TProductDetail, id?: string) => {

@@ -22,8 +22,12 @@ export interface ProductResponseDto {
   name: string;
   /** Giá của sản phẩm */
   price: number;
+  /** Những size khả dụng */
+  sizes: string[];
   /** Slug của sản phẩm */
   slug: string;
+  /** Kiểu của sản phẩm */
+  typeId: string;
   /** Số lượt xem của sản phẩm */
   viewCount: number;
 }

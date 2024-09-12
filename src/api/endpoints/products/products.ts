@@ -18,7 +18,11 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import type { CreateProductDto, TResponse } from "../../model";
+import type {
+  CreateProductDto,
+  TResponse,
+  TResponseFindOne,
+} from "../../model";
 import { customInstance } from "../../mutator/custom-instance";
 
 export const productsControllerFindAll = (signal?: AbortSignal) => {
@@ -206,7 +210,7 @@ export const useProductsControllerCreate = <
   return useMutation(mutationOptions);
 };
 export const productsControllerFindOne = (id: string, signal?: AbortSignal) => {
-  return customInstance<void>({
+  return customInstance<TResponseFindOne>({
     url: `/products/detail/${encodeURIComponent(String(id))}`,
     method: "GET",
     signal,

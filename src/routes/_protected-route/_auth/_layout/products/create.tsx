@@ -1,8 +1,10 @@
-import ProductDetail from "@/features/product-detail";
+import ProductDetailCreate from "@/features/product-detail/product-detail-create";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
   "/_protected-route/_auth/_layout/products/create"
 )({
-  component: () => <ProductDetail title="Create Product" typePage="create" />,
+  component: () => (
+    <ProductDetailCreate title="Create Product" typePage="create" />
+  ),
 });

@@ -8,15 +8,19 @@ import {
 } from "@/components/ui/form";
 import { IFieldProps } from "@/features/product-detail/types";
 import { FieldValues } from "react-hook-form";
-const items = Array.from({ length: 8 }, (_, i) => ({
-  id: String(38 + i),
-  label: String(38 + i),
-}));
+const items = [
+  { id: "S", label: "S" },
+  { id: "M", label: "M" },
+  { id: "L", label: "L" },
+  { id: "XL", label: "XL" },
+  { id: "XXL", label: "XXL" },
+];
 export default function SelectSizeField<T extends FieldValues>({
   control,
   name,
   label,
 }: IFieldProps<T>) {
+
   return (
     <FormField
       control={control}

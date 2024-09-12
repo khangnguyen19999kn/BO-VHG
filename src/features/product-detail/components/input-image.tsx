@@ -26,7 +26,9 @@ export default function InputImage<T extends FieldValues>({
     control,
     name,
   });
-  const [imageList, setImageList] = useState<TImage[]>([]);
+  const defaultImageList: TImage[] = (field.value as TImage[]) || [];
+
+  const [imageList, setImageList] = useState<TImage[]>(defaultImageList);
   const { mutate: uploadImages, isPending: isImageUploadPending } =
     useImagesControllerUploadFile({
       mutation: {
@@ -57,6 +59,7 @@ export default function InputImage<T extends FieldValues>({
       },
     });
   };
+
   const removeImageInListImage = (public_id: string) => {
     const imagesUpdate = imageList.filter(
       (item) => item.public_id !== public_id

@@ -31,6 +31,7 @@ export default function SideBar() {
   const handleLogout = () => {
     authLogout();
   };
+  const userName = localStorage.getItem("user");
   return (
     <div className="w-56 bg-red-900 h-screen py-16 p-1 sticky top-0">
       <div className="relative w-full h-full flex flex-col gap-2 ">
@@ -45,7 +46,7 @@ export default function SideBar() {
         <div className="w-full absolute bottom-0 left-0">
           <div className="text-center mb-5">
             <p className="font-semibold">Xin chào </p>
-            <p className="bold">Admin</p>
+            <p className="bold">{userName}</p>
           </div>
           <Button
             className="w-full"

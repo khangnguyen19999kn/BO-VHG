@@ -1,12 +1,11 @@
-import { useProductsControllerFindAll } from "@/api/endpoints/products/products";
 import { DataTable } from "@/components/data-table/data-table";
 import { Button } from "@/components/ui/button";
-import { columnsTableProducts } from "@/features/products/table/columns-table-products";
+import useTableInfo from "@/features/products/table/useTableInfo";
 import { Link } from "@tanstack/react-router";
+import { FilePlus } from "lucide-react";
 
 export default function ProductsPage() {
-  const { data } = useProductsControllerFindAll();
-  const dataTable = data?.data;
+  const { columnsTableProducts, dataTable } = useTableInfo();
   return (
     <div className="w-full">
       {dataTable && (
@@ -16,7 +15,10 @@ export default function ProductsPage() {
           tableName="Products"
           toolbarCustom={
             <Link to="/products/create">
-              <Button className="bg-green-500">Create Product</Button>
+              <Button className="bg-green-500 flex gap-1 bold items-center">
+                <FilePlus />
+                <p>Create Product</p>
+              </Button>
             </Link>
           }
         />
