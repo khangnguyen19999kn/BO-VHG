@@ -8,6 +8,8 @@
 
 export * from "./apiResponseDto";
 export * from "./blogDTO";
+export * from "./blogListResponseDto";
+export * from "./blogResponseDto";
 export * from "./changePasswordDto";
 export * from "./createProductDto";
 export * from "./imageDto";

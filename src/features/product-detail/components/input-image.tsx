@@ -100,7 +100,7 @@ export default function InputImage<T extends FieldValues>({
               <LoadingSpin />
             ) : (
               imageList.map((item) => (
-                <div className="relative">
+                <div key={item.public_id} className="relative">
                   <img key={item.public_id} src={item.url} className="w-32" />
                   <button
                     type="button"

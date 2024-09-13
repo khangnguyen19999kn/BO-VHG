@@ -18,11 +18,15 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import type { BlogDTO } from "../../model";
+import type { BlogDTO, BlogListResponseDto } from "../../model";
 import { customInstance } from "../../mutator/custom-instance";
 
 export const blogsControllerFindAll = (signal?: AbortSignal) => {
-  return customInstance<void>({ url: `/blogs`, method: "GET", signal });
+  return customInstance<BlogListResponseDto>({
+    url: `/blogs`,
+    method: "GET",
+    signal,
+  });
 };
 
 export const getBlogsControllerFindAllQueryKey = () => {

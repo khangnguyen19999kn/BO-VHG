@@ -7,12 +7,20 @@ import { toast } from "sonner";
 export default function SideBar() {
   const itemsNavbar = [
     {
-      name: "Products management",
+      name: "Products Management",
       path: "/products",
     },
     {
-      name: "Users management",
+      name: "Users Management",
       path: "/users",
+    },
+    {
+      name: "Blogs Management",
+      path: "/blogs",
+    },
+    {
+      name: "Hero Section Management",
+      path: "/hero-section",
     },
   ];
   const { logout } = useAuth();
@@ -33,7 +41,7 @@ export default function SideBar() {
   };
   const userName = localStorage.getItem("user");
   return (
-    <div className="w-56 bg-red-900 h-screen py-16 p-1 sticky top-0">
+    <div className="w-56 bg-white border-r h-screen py-16 p-1 sticky top-0 ">
       <div className="relative w-full h-full flex flex-col gap-2 ">
         <div className="w-full bg-orange-300 h-16 text-center">Logo Navbar</div>
         {itemsNavbar.map((item) => (
