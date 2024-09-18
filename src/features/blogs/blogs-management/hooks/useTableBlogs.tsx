@@ -1,4 +1,7 @@
-import { useBlogsControllerFindAll } from "@/api/endpoints/blogs/blogs";
+import {
+  useBlogsControllerDelete,
+  useBlogsControllerFindAll,
+} from "@/api/endpoints/blogs/blogs";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -14,17 +17,32 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@tanstack/react-router";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {  Pencil, Trash } from "lucide-react";
+import { Pencil, Trash } from "lucide-react";
+import { toast } from "sonner";
 type TColumnBlogsTable = {
   id: string;
   title: string;
-  content: string;
+  slug: string;
   coverImage: string;
   author: string;
   createdAt: string;
 };
 export default function useTableBlogs() {
-  const { data } = useBlogsControllerFindAll();
+  const { data, refetch } = useBlogsControllerFindAll();
+  const { mutate: deleteBlog } = useBlogsControllerDelete({
+    mutation: {
+      onSuccess: () => {
+        toast.success("Delete blog successfully");
+        refetch();
+      },
+      onError: () => {
+        toast.error("Delete blog failed");
+      },
+    },
+  });
+  const handleDelete = (slug: string) => {
+    deleteBlog({ slug });
+  };
   const dataTableBlogs = data?.data;
   const columnsTableBlogs: ColumnDef<Partial<TColumnBlogsTable>>[] = [
     {
@@ -37,13 +55,8 @@ export default function useTableBlogs() {
       cell: ({ row }) => <p>{row.getValue("title")}</p>,
     },
     {
-      accessorKey: "content",
-      header: "Content",
-      //   cell: ({ row }) => (
-      //     <div className="line-clamp-2">
-      //       {row.getValue("content")?.slice(0, 100)}...
-      //     </div>
-      //   ),
+      accessorKey: "slug",
+      header: "Slug of blog",
     },
     {
       accessorKey: "coverImage",
@@ -73,8 +86,8 @@ export default function useTableBlogs() {
       accessorKey: "actions",
       header: "Actions",
       cell: ({ row }) => (
-        <div className="flex gap-2">
-          <Link to={`/products/edit/${row.getValue("id")}`}>
+        <div className="flex gap-2 justify-center">
+          <Link to={`/users/edit/${row.getValue("id")}`}>
             <Button
               variant="outline"
               className="bg-yellow-200 flex gap-1 bold items-center"
@@ -107,7 +120,7 @@ export default function useTableBlogs() {
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction
                   className="bg-red-600 border hover:bg-slate-50 hover:border-red-500 hover:text-red-500"
-                  //   onClick={() => handleDelete(row.getValue("id"))}
+                  onClick={() => handleDelete(row.getValue("slug"))}
                 >
                   Delete
                 </AlertDialogAction>

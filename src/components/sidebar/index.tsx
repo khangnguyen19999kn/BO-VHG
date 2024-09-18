@@ -1,5 +1,6 @@
 import { useAuthControllerLogout } from "@/api/endpoints/auth/auth";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/context/auth";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -42,8 +43,14 @@ export default function SideBar() {
   const userName = localStorage.getItem("user");
   return (
     <div className="w-56 bg-white border-r h-screen py-16 p-1 sticky top-0 ">
-      <div className="relative w-full h-full flex flex-col gap-2 ">
-        <div className="w-full bg-orange-300 h-16 text-center">Logo Navbar</div>
+      <div className="relative w-full h-full flex flex-col gap-4 ">
+        <div className="w-full h-16 text-center">
+          <div className="flex justify-center items-center w-full h-full gap-2 bold text-3xl">
+            <p>V.H.G</p>
+            <Separator orientation="vertical" className="w-[2px]"/>
+            <p>Tailor</p>
+          </div>
+        </div>
         {itemsNavbar.map((item) => (
           <Link to={item.path} key={item.name} className="w-full">
             {({ isActive }) => (

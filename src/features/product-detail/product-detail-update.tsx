@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import InputImage from "@/features/product-detail/components/input-image";
+import InputMultiImage from "@/features/product-detail/components/input-image";
 import SelectSizeField from "@/features/product-detail/components/select-sizes-field";
 import SelectTypeField from "@/features/product-detail/components/select-type-field";
 import {
@@ -41,7 +41,6 @@ export default function ProductDetailUpdate({
     ...post.data,
     price: post.data.price.toString(),
     typeId: post.data.typeId.toString(),
-  
   };
   const form = useForm<TProductDetail>({
     resolver: zodResolver(productDetailSchema),
@@ -88,7 +87,7 @@ export default function ProductDetailUpdate({
               </FormItem>
             )}
           />
-          <InputImage
+          <InputMultiImage
             control={form.control}
             name="images"
             label="Ảnh của sản phẫm"

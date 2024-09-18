@@ -6,11 +6,11 @@
  * OpenAPI spec version: 1.3
  */
 
-export interface SignupDto {
-  /** Name of the user */
+export interface UserDto {
+  /** Id của người dùng */
+  id: string;
+  /** Tên người dùng */
   name: string;
-  /** Password of the user */
-  password: string;
-  /** Username of the user */
+  /** Tên đăng nhập */
   username: string;
 }

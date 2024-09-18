@@ -9,7 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import InputImage from "@/features/product-detail/components/input-image";
+import InputMultiImage from "@/features/product-detail/components/input-image";
 import SelectSizeField from "@/features/product-detail/components/select-sizes-field";
 import SelectTypeField from "@/features/product-detail/components/select-type-field";
 import {
@@ -17,7 +17,7 @@ import {
   productDetailSchema,
 } from "@/features/product-detail/const/product-detail-schema";
 import useCreateUpdateProduct from "@/features/product-detail/hooks/useCreateUpdateProduct";
-import { IProductDetailProps } from "@/features/product-detail/poduct-detail-update";
+import { IProductDetailProps } from "@/features/product-detail/product-detail-update";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -29,15 +29,15 @@ export default function ProductDetailCreate({
   const form = useForm<TProductDetail>({
     resolver: zodResolver(productDetailSchema),
     defaultValues: {
-        name: "",
-        price: "",
-        description: "",
-        images: [],
-        material: "",
-        typeId: "",
-        sizes: [],
-        link: "",
-      },
+      name: "",
+      price: "",
+      description: "",
+      images: [],
+      material: "",
+      typeId: "",
+      sizes: [],
+      link: "",
+    },
   });
   const { handleFormSubmit } = useCreateUpdateProduct({ type: typePage });
 
@@ -80,7 +80,7 @@ export default function ProductDetailCreate({
               </FormItem>
             )}
           />
-          <InputImage
+          <InputMultiImage
             control={form.control}
             name="images"
             label="Ảnh của sản phẫm"

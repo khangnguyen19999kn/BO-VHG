@@ -105,7 +105,7 @@ export function DataTableToolbar<TData>({
         {endActions?.({ table })}
         <CSVLink data={csvData} filename={`${tableName}.csv`} headers={headers}>
           <Button>
-            <span className="mr-2">"Download Excel"</span>
+            <span className="mr-2">Download Excel</span>
           </Button>
         </CSVLink>
         {toolbarCustom}

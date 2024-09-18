@@ -7,11 +7,11 @@
  */
 import type { ImageDto } from "./imageDto";
 
-export interface BlogDTO {
-  /** Content of the blog */
+export interface BlogResponse {
+  /** Nội dung của blog */
   content: string;
   /** Cover image data */
   coverImage: ImageDto;
-  /** Tittle of the blog */
+  /** Tiêu đề blog */
   title: string;
 }

@@ -5,20 +5,11 @@
  * API documentation
  * OpenAPI spec version: 1.3
  */
+import type { BlogResponse } from "./blogResponse";
 
 export interface BlogResponseDto {
-  /** Tên tác giả viết blog */
-  author: string;
-  /** Nội dung của blog */
-  content: string;
-  /** URL của hình ảnh */
-  coverImage: string;
-  /** Blog duoc tao luc */
-  createdAt: string;
-  /** Id của blog */
-  id: string;
-  /** Slug cua blog */
-  slug: string;
-  /** Tiêu đề blog */
-  title: string;
+  /** Dữ liệu chứa danh sách blogs */
+  data: BlogResponse;
+  /** Trạng thái của yêu cầu */
+  status: number;
 }

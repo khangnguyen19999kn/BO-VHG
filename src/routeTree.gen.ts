@@ -19,10 +19,12 @@ import { Route as ProtectedRouteAuthLayoutUsersIndexImport } from './routes/_pro
 import { Route as ProtectedRouteAuthLayoutProductsIndexImport } from './routes/_protected-route/_auth/_layout/products/index'
 import { Route as ProtectedRouteAuthLayoutHeroSectionIndexImport } from './routes/_protected-route/_auth/_layout/hero-section/index'
 import { Route as ProtectedRouteAuthLayoutBlogsIndexImport } from './routes/_protected-route/_auth/_layout/blogs/index'
+import { Route as ProtectedRouteAuthLayoutUsersCreateImport } from './routes/_protected-route/_auth/_layout/users/create'
 import { Route as ProtectedRouteAuthLayoutProductsCreateImport } from './routes/_protected-route/_auth/_layout/products/create'
 import { Route as ProtectedRouteAuthLayoutBlogsCreateImport } from './routes/_protected-route/_auth/_layout/blogs/create'
+import { Route as ProtectedRouteAuthLayoutUsersDetailIdImport } from './routes/_protected-route/_auth/_layout/users/detail/$id'
 import { Route as ProtectedRouteAuthLayoutProductsEditIdImport } from './routes/_protected-route/_auth/_layout/products/edit/$id'
-import { Route as ProtectedRouteAuthLayoutBlogsEditIdImport } from './routes/_protected-route/_auth/_layout/blogs/edit/$id'
+import { Route as ProtectedRouteAuthLayoutBlogsEditSlugImport } from './routes/_protected-route/_auth/_layout/blogs/edit/$slug'
 
 // Create/Update Routes
 
@@ -70,6 +72,12 @@ const ProtectedRouteAuthLayoutBlogsIndexRoute =
     getParentRoute: () => ProtectedRouteAuthLayoutRoute,
   } as any)
 
+const ProtectedRouteAuthLayoutUsersCreateRoute =
+  ProtectedRouteAuthLayoutUsersCreateImport.update({
+    path: '/users/create',
+    getParentRoute: () => ProtectedRouteAuthLayoutRoute,
+  } as any)
+
 const ProtectedRouteAuthLayoutProductsCreateRoute =
   ProtectedRouteAuthLayoutProductsCreateImport.update({
     path: '/products/create',
@@ -82,15 +90,21 @@ const ProtectedRouteAuthLayoutBlogsCreateRoute =
     getParentRoute: () => ProtectedRouteAuthLayoutRoute,
   } as any)
 
+const ProtectedRouteAuthLayoutUsersDetailIdRoute =
+  ProtectedRouteAuthLayoutUsersDetailIdImport.update({
+    path: '/users/detail/$id',
+    getParentRoute: () => ProtectedRouteAuthLayoutRoute,
+  } as any)
+
 const ProtectedRouteAuthLayoutProductsEditIdRoute =
   ProtectedRouteAuthLayoutProductsEditIdImport.update({
     path: '/products/edit/$id',
     getParentRoute: () => ProtectedRouteAuthLayoutRoute,
   } as any)
 
-const ProtectedRouteAuthLayoutBlogsEditIdRoute =
-  ProtectedRouteAuthLayoutBlogsEditIdImport.update({
-    path: '/blogs/edit/$id',
+const ProtectedRouteAuthLayoutBlogsEditSlugRoute =
+  ProtectedRouteAuthLayoutBlogsEditSlugImport.update({
+    path: '/blogs/edit/$slug',
     getParentRoute: () => ProtectedRouteAuthLayoutRoute,
   } as any)
 
@@ -140,6 +154,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRouteAuthLayoutProductsCreateImport
       parentRoute: typeof ProtectedRouteAuthLayoutImport
     }
+    '/_protected-route/_auth/_layout/users/create': {
+      id: '/_protected-route/_auth/_layout/users/create'
+      path: '/users/create'
+      fullPath: '/users/create'
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutUsersCreateImport
+      parentRoute: typeof ProtectedRouteAuthLayoutImport
+    }
     '/_protected-route/_auth/_layout/blogs/': {
       id: '/_protected-route/_auth/_layout/blogs/'
       path: '/blogs'
@@ -168,11 +189,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedRouteAuthLayoutUsersIndexImport
       parentRoute: typeof ProtectedRouteAuthLayoutImport
     }
-    '/_protected-route/_auth/_layout/blogs/edit/$id': {
-      id: '/_protected-route/_auth/_layout/blogs/edit/$id'
-      path: '/blogs/edit/$id'
-      fullPath: '/blogs/edit/$id'
-      preLoaderRoute: typeof ProtectedRouteAuthLayoutBlogsEditIdImport
+    '/_protected-route/_auth/_layout/blogs/edit/$slug': {
+      id: '/_protected-route/_auth/_layout/blogs/edit/$slug'
+      path: '/blogs/edit/$slug'
+      fullPath: '/blogs/edit/$slug'
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutBlogsEditSlugImport
       parentRoute: typeof ProtectedRouteAuthLayoutImport
     }
     '/_protected-route/_auth/_layout/products/edit/$id': {
@@ -180,6 +201,13 @@ declare module '@tanstack/react-router' {
       path: '/products/edit/$id'
       fullPath: '/products/edit/$id'
       preLoaderRoute: typeof ProtectedRouteAuthLayoutProductsEditIdImport
+      parentRoute: typeof ProtectedRouteAuthLayoutImport
+    }
+    '/_protected-route/_auth/_layout/users/detail/$id': {
+      id: '/_protected-route/_auth/_layout/users/detail/$id'
+      path: '/users/detail/$id'
+      fullPath: '/users/detail/$id'
+      preLoaderRoute: typeof ProtectedRouteAuthLayoutUsersDetailIdImport
       parentRoute: typeof ProtectedRouteAuthLayoutImport
     }
   }
@@ -193,12 +221,14 @@ export const routeTree = rootRoute.addChildren({
     ProtectedRouteAuthLayoutRoute: ProtectedRouteAuthLayoutRoute.addChildren({
       ProtectedRouteAuthLayoutBlogsCreateRoute,
       ProtectedRouteAuthLayoutProductsCreateRoute,
+      ProtectedRouteAuthLayoutUsersCreateRoute,
       ProtectedRouteAuthLayoutBlogsIndexRoute,
       ProtectedRouteAuthLayoutHeroSectionIndexRoute,
       ProtectedRouteAuthLayoutProductsIndexRoute,
       ProtectedRouteAuthLayoutUsersIndexRoute,
-      ProtectedRouteAuthLayoutBlogsEditIdRoute,
+      ProtectedRouteAuthLayoutBlogsEditSlugRoute,
       ProtectedRouteAuthLayoutProductsEditIdRoute,
+      ProtectedRouteAuthLayoutUsersDetailIdRoute,
     }),
   }),
   LoginIndexRoute,
@@ -235,12 +265,14 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_protected-route/_auth/_layout/blogs/create",
         "/_protected-route/_auth/_layout/products/create",
+        "/_protected-route/_auth/_layout/users/create",
         "/_protected-route/_auth/_layout/blogs/",
         "/_protected-route/_auth/_layout/hero-section/",
         "/_protected-route/_auth/_layout/products/",
         "/_protected-route/_auth/_layout/users/",
-        "/_protected-route/_auth/_layout/blogs/edit/$id",
-        "/_protected-route/_auth/_layout/products/edit/$id"
+        "/_protected-route/_auth/_layout/blogs/edit/$slug",
+        "/_protected-route/_auth/_layout/products/edit/$id",
+        "/_protected-route/_auth/_layout/users/detail/$id"
       ]
     },
     "/_protected-route/_auth/_layout/blogs/create": {
@@ -249,6 +281,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected-route/_auth/_layout/products/create": {
       "filePath": "_protected-route/_auth/_layout/products/create.tsx",
+      "parent": "/_protected-route/_auth/_layout"
+    },
+    "/_protected-route/_auth/_layout/users/create": {
+      "filePath": "_protected-route/_auth/_layout/users/create.tsx",
       "parent": "/_protected-route/_auth/_layout"
     },
     "/_protected-route/_auth/_layout/blogs/": {
@@ -267,12 +303,16 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected-route/_auth/_layout/users/index.tsx",
       "parent": "/_protected-route/_auth/_layout"
     },
-    "/_protected-route/_auth/_layout/blogs/edit/$id": {
-      "filePath": "_protected-route/_auth/_layout/blogs/edit/$id.tsx",
+    "/_protected-route/_auth/_layout/blogs/edit/$slug": {
+      "filePath": "_protected-route/_auth/_layout/blogs/edit/$slug.tsx",
       "parent": "/_protected-route/_auth/_layout"
     },
     "/_protected-route/_auth/_layout/products/edit/$id": {
       "filePath": "_protected-route/_auth/_layout/products/edit/$id.tsx",
+      "parent": "/_protected-route/_auth/_layout"
+    },
+    "/_protected-route/_auth/_layout/users/detail/$id": {
+      "filePath": "_protected-route/_auth/_layout/users/detail/$id.tsx",
       "parent": "/_protected-route/_auth/_layout"
     }
   }

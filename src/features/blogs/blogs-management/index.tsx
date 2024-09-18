@@ -14,7 +14,7 @@ export default function BlogsManagement() {
           data={dataTableBlogs}
           tableName="Blogs"
           toolbarCustom={
-            <Link to="/products/create">
+            <Link to="/blogs/create">
               <Button className="bg-green-500 flex gap-1 bold items-center">
                 <FilePlus />
                 <p>Tạo bài viết mới</p>

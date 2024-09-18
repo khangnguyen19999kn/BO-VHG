@@ -12,12 +12,12 @@ import {
 } from "@/components/ui/form";
 import { IFieldProps } from "@/features/product-detail/types";
 import { Plus, X } from "lucide-react";
-import { useState } from "react";
+import React, { useRef, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { toast } from "sonner";
 
 type TImage = ImagesControllerUploadFile200DataItem;
-export default function InputMultiImage<T extends FieldValues>({
+export default function InputImageField<T extends FieldValues>({
   control,
   name,
   label,
@@ -26,17 +26,20 @@ export default function InputMultiImage<T extends FieldValues>({
     control,
     name,
   });
-  const defaultImageList: TImage[] = (field.value as TImage[]) || [];
-
-  const [imageList, setImageList] = useState<TImage[]>(defaultImageList);
-  const { mutate: uploadImages, isPending: isImageUploadPending } =
+  const inputRef = useRef<HTMLInputElement>(null);
+  const emptyImage: TImage = {
+    url: "",
+    public_id: "",
+  };
+  const defaultImageList: TImage = (field.value as TImage) || emptyImage;
+  const [imageDetail, setImageDetail] = useState<TImage>(defaultImageList);
+  const { mutate: uploadImage, isPending: isImageUploadPending } =
     useImagesControllerUploadFile({
       mutation: {
         onSuccess: (data) => {
           if (data.data) {
-            const newImages = [...imageList, ...data.data];
-            setImageList(newImages);
-            field.onChange(newImages);
+            setImageDetail(data.data[0]);
+            field.onChange(data.data[0]);
           }
         },
         onError: () => {
@@ -46,32 +49,28 @@ export default function InputMultiImage<T extends FieldValues>({
     });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(1234);
     const files = event.target.files;
     if (!files) return;
     const filesUpload: Blob[] = Array.from(files);
-    if (files.length + imageList.length > 5) {
-      toast.warning("Chỉ có thể upload tối đa 5 ảnh");
-      return;
-    }
-    uploadImages({
+    uploadImage({
       data: {
         files: filesUpload,
       },
     });
   };
 
-  const removeImageInListImage = (public_id: string) => {
-    const imagesUpdate = imageList.filter(
-      (item) => item.public_id !== public_id
-    );
-    setImageList(imagesUpdate);
-    field.onChange(imagesUpdate);
+  const removeImageInListImage = () => {
+    setImageDetail(emptyImage);
+    field.onChange(emptyImage);
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
   };
   const { mutate: deleteImage } = useImagesControllerDeleteImage({
     mutation: {
-      onSuccess: (_, { data }) => {
-        const public_id = data.public_id || "";
-        removeImageInListImage(public_id);
+      onSuccess: () => {
+        removeImageInListImage();
         toast.success("Xóa ảnh thành công");
       },
       onError: () => {
@@ -99,31 +98,37 @@ export default function InputMultiImage<T extends FieldValues>({
             {isImageUploadPending ? (
               <LoadingSpin />
             ) : (
-              imageList.map((item) => (
-                <div key={item.public_id} className="relative">
-                  <img key={item.public_id} src={item.url} className="w-32" />
+              imageDetail?.public_id &&
+              imageDetail?.url && (
+                <div key={imageDetail.public_id} className="relative">
+                  <img
+                    key={imageDetail.public_id}
+                    src={imageDetail.url}
+                    className="w-32"
+                  />
                   <button
                     type="button"
-                    onClick={() => handleRemoveImage(item.public_id)}
+                    onClick={() => handleRemoveImage(imageDetail.public_id)}
                     className="absolute top-1 right-1 bg-red-600 rounded-xl group hover:bg-red-200"
                   >
                     <X className="text-white group-hover:text-red-600" />
                   </button>
                 </div>
-              ))
+              )
             )}
-            <div className="w-14 h-14 bg-blue-500 rounded-full flex justify-center items-center ">
-              <label htmlFor="upload-image" className="cursor-pointer">
-                <Plus className="text-white" />
-                <input
-                  id="upload-image"
-                  type="file"
-                  multiple
-                  className="hidden"
-                  onChange={handleInputChange}
-                />
-              </label>
-            </div>
+            <label
+              htmlFor="upload-image"
+              className="w-14 h-14 bg-blue-500 rounded-full flex justify-center items-center cursor-pointer"
+            >
+              <Plus className="text-white" />
+              <input
+                id="upload-image"
+                type="file"
+                className="hidden"
+                onChange={handleInputChange}
+                ref={inputRef}
+              />
+            </label>
           </div>
           <FormMessage />
         </FormItem>

@@ -7,7 +7,7 @@
  */
 import type { BlogsResponseDto } from "./blogsResponseDto";
 
-export interface BlogListResponseDto {
+export interface BlogsListResponseDto {
   /** Dữ liệu chứa danh sách blogs */
   data: BlogsResponseDto[];
   /** Trạng thái của yêu cầu */

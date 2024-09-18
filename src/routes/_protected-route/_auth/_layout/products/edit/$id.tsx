@@ -1,5 +1,5 @@
 import { getProductsControllerFindOneQueryOptions } from "@/api/endpoints/products/products";
-import ProductDetailUpdate from "@/features/product-detail/poduct-detail-update";
+import ProductDetailUpdate from "@/features/product-detail/product-detail-update";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(

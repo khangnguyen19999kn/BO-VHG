@@ -18,11 +18,15 @@ import type {
   UseQueryOptions,
   UseQueryResult,
 } from "@tanstack/react-query";
-import type { BlogDTO, BlogListResponseDto } from "../../model";
+import type {
+  BlogDTO,
+  BlogResponseDto,
+  BlogsListResponseDto,
+} from "../../model";
 import { customInstance } from "../../mutator/custom-instance";
 
 export const blogsControllerFindAll = (signal?: AbortSignal) => {
-  return customInstance<BlogListResponseDto>({
+  return customInstance<BlogsListResponseDto>({
     url: `/blogs`,
     method: "GET",
     signal,
@@ -208,7 +212,7 @@ export const useBlogsControllerCreate = <
   return useMutation(mutationOptions);
 };
 export const blogsControllerFindOne = (slug: string, signal?: AbortSignal) => {
-  return customInstance<void>({
+  return customInstance<BlogResponseDto>({
     url: `/blogs/detail/${encodeURIComponent(String(slug))}`,
     method: "GET",
     signal,
