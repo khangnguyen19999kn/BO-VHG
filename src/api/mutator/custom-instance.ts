@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig } from "axios";
 
 export const AXIOS_INSTANCE = Axios.create({
-  baseURL: "http://localhost:6969",
+  baseURL: "https://vhg.vovantrong.xyz",
   withCredentials: true,
 });
 
