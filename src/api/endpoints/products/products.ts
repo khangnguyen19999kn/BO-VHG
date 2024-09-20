@@ -209,23 +209,26 @@ export const useProductsControllerCreate = <
 
   return useMutation(mutationOptions);
 };
-export const productsControllerFindOne = (id: string, signal?: AbortSignal) => {
+export const productsControllerFindOne = (
+  slug: string,
+  signal?: AbortSignal,
+) => {
   return customInstance<TResponseFindOne>({
-    url: `/products/detail/${encodeURIComponent(String(id))}`,
+    url: `/products/detail/${encodeURIComponent(String(slug))}`,
     method: "GET",
     signal,
   });
 };
 
-export const getProductsControllerFindOneQueryKey = (id: string) => {
-  return [`/products/detail/${id}`] as const;
+export const getProductsControllerFindOneQueryKey = (slug: string) => {
+  return [`/products/detail/${slug}`] as const;
 };
 
 export const getProductsControllerFindOneQueryOptions = <
   TData = Awaited<ReturnType<typeof productsControllerFindOne>>,
   TError = unknown,
 >(
-  id: string,
+  slug: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -239,16 +242,16 @@ export const getProductsControllerFindOneQueryOptions = <
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getProductsControllerFindOneQueryKey(id);
+    queryOptions?.queryKey ?? getProductsControllerFindOneQueryKey(slug);
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof productsControllerFindOne>>
-  > = ({ signal }) => productsControllerFindOne(id, signal);
+  > = ({ signal }) => productsControllerFindOne(slug, signal);
 
   return {
     queryKey,
     queryFn,
-    enabled: !!id,
+    enabled: !!slug,
     ...queryOptions,
   } as UseQueryOptions<
     Awaited<ReturnType<typeof productsControllerFindOne>>,
@@ -266,7 +269,7 @@ export function useProductsControllerFindOne<
   TData = Awaited<ReturnType<typeof productsControllerFindOne>>,
   TError = unknown,
 >(
-  id: string,
+  slug: string,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -289,7 +292,7 @@ export function useProductsControllerFindOne<
   TData = Awaited<ReturnType<typeof productsControllerFindOne>>,
   TError = unknown,
 >(
-  id: string,
+  slug: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -312,7 +315,7 @@ export function useProductsControllerFindOne<
   TData = Awaited<ReturnType<typeof productsControllerFindOne>>,
   TError = unknown,
 >(
-  id: string,
+  slug: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -328,7 +331,7 @@ export function useProductsControllerFindOne<
   TData = Awaited<ReturnType<typeof productsControllerFindOne>>,
   TError = unknown,
 >(
-  id: string,
+  slug: string,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -339,7 +342,128 @@ export function useProductsControllerFindOne<
     >;
   },
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getProductsControllerFindOneQueryOptions(id, options);
+  const queryOptions = getProductsControllerFindOneQueryOptions(slug, options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const productsControllerFindNew = (signal?: AbortSignal) => {
+  return customInstance<TResponse>({
+    url: `/products/new`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getProductsControllerFindNewQueryKey = () => {
+  return [`/products/new`] as const;
+};
+
+export const getProductsControllerFindNewQueryOptions = <
+  TData = Awaited<ReturnType<typeof productsControllerFindNew>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindNew>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ?? getProductsControllerFindNewQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof productsControllerFindNew>>
+  > = ({ signal }) => productsControllerFindNew(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof productsControllerFindNew>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ProductsControllerFindNewQueryResult = NonNullable<
+  Awaited<ReturnType<typeof productsControllerFindNew>>
+>;
+export type ProductsControllerFindNewQueryError = unknown;
+
+export function useProductsControllerFindNew<
+  TData = Awaited<ReturnType<typeof productsControllerFindNew>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindNew>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof productsControllerFindNew>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >;
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useProductsControllerFindNew<
+  TData = Awaited<ReturnType<typeof productsControllerFindNew>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindNew>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof productsControllerFindNew>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useProductsControllerFindNew<
+  TData = Awaited<ReturnType<typeof productsControllerFindNew>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindNew>>,
+      TError,
+      TData
+    >
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+export function useProductsControllerFindNew<
+  TData = Awaited<ReturnType<typeof productsControllerFindNew>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindNew>>,
+      TError,
+      TData
+    >
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getProductsControllerFindNewQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;

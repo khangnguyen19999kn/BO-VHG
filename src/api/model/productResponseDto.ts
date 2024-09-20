@@ -8,6 +8,8 @@
 import type { ImageResponseDto } from "./imageResponseDto";
 
 export interface ProductResponseDto {
+  /** Ngày tạo sản phẩm */
+  createdAt: string;
   /** Mô tả của sản phẩm */
   description: string;
   /** ID của sản phẩm */

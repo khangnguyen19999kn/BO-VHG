@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig } from "axios";
 
 export const AXIOS_INSTANCE = Axios.create({
-  baseURL: "https://vhg.vovantrong.xyz",
+  baseURL: "http://localhost:6969",
   withCredentials: true,
 });
 
@@ -17,7 +17,7 @@ export const customInstance = <T>(config: AxiosRequestConfig): Promise<T> => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   promise.cancel = () => {
-    source.cancel("Query was cancelled by Vue Query");
+    source.cancel("Query was cancelled by React Query");
   };
 
   return promise;

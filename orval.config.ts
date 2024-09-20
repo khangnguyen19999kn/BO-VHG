@@ -21,7 +21,7 @@ export default defineConfig({
       urlEncodeParameters: true,
     },
     input: {
-      target: "https://vhg.vovantrong.xyz/api/document.json",
+      target: "http://localhost:6969/api/document.json",
     },
     hooks: {
       afterAllFilesWrite: "prettier --write",

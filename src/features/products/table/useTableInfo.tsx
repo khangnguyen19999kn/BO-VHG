@@ -58,12 +58,12 @@ export default function useTableInfo() {
       header: "Name",
     },
     {
-      accessorKey: "price",
-      header: "Price",
+      accessorKey: "slug",
+      header: "Slug",
     },
     {
-      accessorKey: "description",
-      header: "Description",
+      accessorKey: "price",
+      header: "Price",
     },
     {
       accessorKey: "material",
@@ -86,7 +86,7 @@ export default function useTableInfo() {
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <Link to={`/products/edit/${row.getValue("id")}`}>
+          <Link to={`/products/edit/${row.getValue("slug")}`}>
             <Button
               variant="outline"
               className="bg-yellow-200 flex gap-1 bold items-center"
