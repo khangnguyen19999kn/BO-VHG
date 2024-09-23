@@ -71,12 +71,14 @@ export default function BlogDetailCreate() {
             control={form.control}
             name="coverImage"
             label="Ảnh bìa của bài viết"
+            folderName="blogs"
           />
 
           <EditorField
             control={form.control}
             name="content"
             label="Nội dung bài viết"
+            folderName="blogs"
           />
 
           <Button type="submit">Tạo bài viết</Button>

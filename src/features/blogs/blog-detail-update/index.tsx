@@ -25,6 +25,7 @@ import { toast } from "sonner";
 
 export default function BlogDetailUpdate() {
   const postSlug = Route.useParams().slug;
+  console.log(postSlug);
   const navigate = useNavigate();
   const { data: post } = useSuspenseQuery(
     getBlogsControllerFindOneQueryOptions(postSlug)
@@ -80,6 +81,7 @@ export default function BlogDetailUpdate() {
             control={form.control}
             name="content"
             label="Nội dung bài viết"
+            folderName="blogs"
           />
 
           <Button type="submit">Lưu</Button>

@@ -21,6 +21,7 @@ export default function InputImageField<T extends FieldValues>({
   control,
   name,
   label,
+  folderName,
 }: IFieldProps<T>) {
   const { field } = useController({
     control,
@@ -56,6 +57,7 @@ export default function InputImageField<T extends FieldValues>({
     uploadImage({
       data: {
         files: filesUpload,
+        folder: folderName,
       },
     });
   };

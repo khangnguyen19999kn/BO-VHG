@@ -20,6 +20,7 @@ import type {
 } from "@tanstack/react-query";
 import type {
   CreateProductDto,
+  ProductsControllerFindByTypeParams,
   TResponse,
   TResponseFindOne,
 } from "../../model";
@@ -476,17 +477,22 @@ export function useProductsControllerFindNew<
 
 export const productsControllerFindByType = (
   type: string,
+  params?: ProductsControllerFindByTypeParams,
   signal?: AbortSignal,
 ) => {
   return customInstance<void>({
     url: `/products/${encodeURIComponent(String(type))}`,
     method: "GET",
+    params,
     signal,
   });
 };
 
-export const getProductsControllerFindByTypeQueryKey = (type: string) => {
-  return [`/products/${type}`] as const;
+export const getProductsControllerFindByTypeQueryKey = (
+  type: string,
+  params?: ProductsControllerFindByTypeParams,
+) => {
+  return [`/products/${type}`, ...(params ? [params] : [])] as const;
 };
 
 export const getProductsControllerFindByTypeQueryOptions = <
@@ -494,6 +500,7 @@ export const getProductsControllerFindByTypeQueryOptions = <
   TError = unknown,
 >(
   type: string,
+  params?: ProductsControllerFindByTypeParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -507,11 +514,12 @@ export const getProductsControllerFindByTypeQueryOptions = <
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getProductsControllerFindByTypeQueryKey(type);
+    queryOptions?.queryKey ??
+    getProductsControllerFindByTypeQueryKey(type, params);
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof productsControllerFindByType>>
-  > = ({ signal }) => productsControllerFindByType(type, signal);
+  > = ({ signal }) => productsControllerFindByType(type, params, signal);
 
   return {
     queryKey,
@@ -535,6 +543,7 @@ export function useProductsControllerFindByType<
   TError = unknown,
 >(
   type: string,
+  params: undefined | ProductsControllerFindByTypeParams,
   options: {
     query: Partial<
       UseQueryOptions<
@@ -558,6 +567,7 @@ export function useProductsControllerFindByType<
   TError = unknown,
 >(
   type: string,
+  params?: ProductsControllerFindByTypeParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -581,6 +591,7 @@ export function useProductsControllerFindByType<
   TError = unknown,
 >(
   type: string,
+  params?: ProductsControllerFindByTypeParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -597,6 +608,7 @@ export function useProductsControllerFindByType<
   TError = unknown,
 >(
   type: string,
+  params?: ProductsControllerFindByTypeParams,
   options?: {
     query?: Partial<
       UseQueryOptions<
@@ -609,6 +621,7 @@ export function useProductsControllerFindByType<
 ): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getProductsControllerFindByTypeQueryOptions(
     type,
+    params,
     options,
   );
 

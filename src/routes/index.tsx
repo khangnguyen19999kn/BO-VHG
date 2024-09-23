@@ -10,7 +10,6 @@ function Index() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   useEffect(() => {
-    console.log(5555, isAuthenticated);
     if (!isAuthenticated) {
       navigate({ to: "/login" });
       return;

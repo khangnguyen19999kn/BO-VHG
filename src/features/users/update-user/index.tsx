@@ -128,6 +128,7 @@ export default function UpdateUser({ defaultValues }: IUpdateUserProps) {
                       <Input
                         placeholder="Nhập mật khẩu hiện tại người dùng"
                         {...field}
+                        type="password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -149,6 +150,7 @@ export default function UpdateUser({ defaultValues }: IUpdateUserProps) {
                           <Input
                             placeholder="Nhập mật khẩu mới cho người dùng"
                             {...field}
+                            type="password"
                           />
                         </FormControl>
                         <FormMessage />
@@ -165,6 +167,7 @@ export default function UpdateUser({ defaultValues }: IUpdateUserProps) {
                           <Input
                             placeholder="Nhập lại mật khẩu mới của người dùng"
                             {...field}
+                            type="password"
                           />
                         </FormControl>
                         <FormMessage />

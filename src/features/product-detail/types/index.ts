@@ -6,4 +6,5 @@ export interface IFieldProps<T extends FieldValues> {
   name: Path<T>;
   label: string;
   placeholder?: string;
+  folderName?: string;
 }

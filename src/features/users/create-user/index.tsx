@@ -119,6 +119,7 @@ export default function CreateUser() {
                       <Input
                         placeholder="Nhập mật khẩu người dùng"
                         {...field}
+                        type="password"
                       />
                     </FormControl>
                     <FormMessage />
@@ -135,6 +136,7 @@ export default function CreateUser() {
                       <Input
                         placeholder="Nhập lại mật khẩu người dùng"
                         {...field}
+                        type="password"
                       />
                     </FormControl>
                     <FormMessage />

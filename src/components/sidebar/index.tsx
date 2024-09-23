@@ -1,4 +1,5 @@
 import { useAuthControllerLogout } from "@/api/endpoints/auth/auth";
+import BoxReveal from "@/components/magicui/box-reveal";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/context/auth";
@@ -44,13 +45,21 @@ export default function SideBar() {
   return (
     <div className="w-56 bg-white border-r h-screen py-16 p-1 sticky top-0 ">
       <div className="relative w-full h-full flex flex-col gap-4 ">
-        <div className="w-full h-16 text-center">
-          <div className="flex justify-center items-center w-full h-full gap-2 bold text-3xl">
-            <p>V.H.G</p>
-            <Separator orientation="vertical" className="w-[2px]"/>
-            <p>Tailor</p>
-          </div>
+        <div className="w-full flex justify-center items-center">
+          <BoxReveal boxColor={"#5046e6"} duration={0.5}>
+            <div className="text-center">
+              <div className="w-full h-16">
+                <div className="flex justify-center items-center w-full h-full gap-2 bold text-3xl">
+                  <p>V.H.G</p>
+                  <Separator orientation="vertical" className="w-[2px] h-1/2" />
+                  <p>Tailor</p>
+                </div>
+              </div>
+              <p className="text-xl text-gray-500">Back Office</p>
+            </div>
+          </BoxReveal>
         </div>
+        <Separator />
         {itemsNavbar.map((item) => (
           <Link to={item.path} key={item.name} className="w-full">
             {({ isActive }) => (

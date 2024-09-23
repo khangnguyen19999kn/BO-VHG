@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { IFieldProps } from "@/features/product-detail/types";
 import { Plus, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useController } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -21,14 +21,19 @@ export default function InputMultiImage<T extends FieldValues>({
   control,
   name,
   label,
+  folderName,
 }: IFieldProps<T>) {
   const { field } = useController({
     control,
     name,
   });
-  const defaultImageList: TImage[] = (field.value as TImage[]) || [];
 
-  const [imageList, setImageList] = useState<TImage[]>(defaultImageList);
+  const [imageList, setImageList] = useState<TImage[]>([]);
+  useEffect(() => {
+    if (field.value) {
+      setImageList(field.value);
+    }
+  }, [field.value]);
   const { mutate: uploadImages, isPending: isImageUploadPending } =
     useImagesControllerUploadFile({
       mutation: {
@@ -56,6 +61,7 @@ export default function InputMultiImage<T extends FieldValues>({
     uploadImages({
       data: {
         files: filesUpload,
+        folder: folderName,
       },
     });
   };

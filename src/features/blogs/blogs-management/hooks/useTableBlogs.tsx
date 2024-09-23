@@ -87,7 +87,7 @@ export default function useTableBlogs() {
       header: "Actions",
       cell: ({ row }) => (
         <div className="flex gap-2 justify-center">
-          <Link to={`/users/edit/${row.getValue("id")}`}>
+          <Link to={`/blogs/edit/${row.getValue("slug")}`}>
             <Button
               variant="outline"
               className="bg-yellow-200 flex gap-1 bold items-center"

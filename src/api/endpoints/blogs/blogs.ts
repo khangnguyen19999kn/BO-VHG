@@ -21,6 +21,7 @@ import type {
 import type {
   BlogDTO,
   BlogResponseDto,
+  BlogsControllerFindNewParams,
   BlogsListResponseDto,
 } from "../../model";
 import { customInstance } from "../../mutator/custom-instance";
@@ -211,38 +212,47 @@ export const useBlogsControllerCreate = <
 
   return useMutation(mutationOptions);
 };
-export const blogsControllerFindNew = (signal?: AbortSignal) => {
+export const blogsControllerFindNew = (
+  params?: BlogsControllerFindNewParams,
+  signal?: AbortSignal,
+) => {
   return customInstance<BlogsListResponseDto>({
     url: `/blogs/new`,
     method: "GET",
+    params,
     signal,
   });
 };
 
-export const getBlogsControllerFindNewQueryKey = () => {
-  return [`/blogs/new`] as const;
+export const getBlogsControllerFindNewQueryKey = (
+  params?: BlogsControllerFindNewParams,
+) => {
+  return [`/blogs/new`, ...(params ? [params] : [])] as const;
 };
 
 export const getBlogsControllerFindNewQueryOptions = <
   TData = Awaited<ReturnType<typeof blogsControllerFindNew>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof blogsControllerFindNew>>,
-      TError,
-      TData
-    >
-  >;
-}) => {
+>(
+  params?: BlogsControllerFindNewParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof blogsControllerFindNew>>,
+        TError,
+        TData
+      >
+    >;
+  },
+) => {
   const { query: queryOptions } = options ?? {};
 
   const queryKey =
-    queryOptions?.queryKey ?? getBlogsControllerFindNewQueryKey();
+    queryOptions?.queryKey ?? getBlogsControllerFindNewQueryKey(params);
 
   const queryFn: QueryFunction<
     Awaited<ReturnType<typeof blogsControllerFindNew>>
-  > = ({ signal }) => blogsControllerFindNew(signal);
+  > = ({ signal }) => blogsControllerFindNew(params, signal);
 
   return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
     Awaited<ReturnType<typeof blogsControllerFindNew>>,
@@ -259,69 +269,81 @@ export type BlogsControllerFindNewQueryError = unknown;
 export function useBlogsControllerFindNew<
   TData = Awaited<ReturnType<typeof blogsControllerFindNew>>,
   TError = unknown,
->(options: {
-  query: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof blogsControllerFindNew>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      DefinedInitialDataOptions<
+>(
+  params: undefined | BlogsControllerFindNewParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof blogsControllerFindNew>>,
         TError,
         TData
-      >,
-      "initialData"
-    >;
-}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+      >
+    > &
+      Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof blogsControllerFindNew>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+  },
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useBlogsControllerFindNew<
   TData = Awaited<ReturnType<typeof blogsControllerFindNew>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof blogsControllerFindNew>>,
-      TError,
-      TData
-    >
-  > &
-    Pick<
-      UndefinedInitialDataOptions<
+>(
+  params?: BlogsControllerFindNewParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
         Awaited<ReturnType<typeof blogsControllerFindNew>>,
         TError,
         TData
-      >,
-      "initialData"
-    >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+      >
+    > &
+      Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof blogsControllerFindNew>>,
+          TError,
+          TData
+        >,
+        "initialData"
+      >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 export function useBlogsControllerFindNew<
   TData = Awaited<ReturnType<typeof blogsControllerFindNew>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof blogsControllerFindNew>>,
-      TError,
-      TData
-    >
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+>(
+  params?: BlogsControllerFindNewParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof blogsControllerFindNew>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
 export function useBlogsControllerFindNew<
   TData = Awaited<ReturnType<typeof blogsControllerFindNew>>,
   TError = unknown,
->(options?: {
-  query?: Partial<
-    UseQueryOptions<
-      Awaited<ReturnType<typeof blogsControllerFindNew>>,
-      TError,
-      TData
-    >
-  >;
-}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-  const queryOptions = getBlogsControllerFindNewQueryOptions(options);
+>(
+  params?: BlogsControllerFindNewParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof blogsControllerFindNew>>,
+        TError,
+        TData
+      >
+    >;
+  },
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getBlogsControllerFindNewQueryOptions(params, options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;

@@ -91,6 +91,7 @@ export default function ProductDetailUpdate({
             control={form.control}
             name="images"
             label="Ảnh của sản phẫm"
+            folderName="products"
           />
 
           <SelectTypeField
@@ -136,6 +137,7 @@ export default function ProductDetailUpdate({
             control={form.control}
             name="description"
             label="Mô tả sản phẩm"
+            folderName="products"
           />
           <Button type="submit">{typePage === "create" ? "Tạo" : "Lưu"}</Button>
         </form>

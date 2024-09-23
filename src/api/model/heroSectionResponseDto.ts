@@ -5,9 +5,10 @@
  * API documentation
  * OpenAPI spec version: 1.3
  */
+import type { ImageResponseDto } from "./imageResponseDto";
 
 export interface HeroSectionResponseDto {
-  data: string[];
+  data: ImageResponseDto[];
   /** Status number */
   status: number;
 }

@@ -6,7 +6,6 @@
  * OpenAPI spec version: 1.3
  */
 
-export type ImagesControllerUploadFileBody = {
-  files?: Blob[];
-  folder?: string;
+export type BlogsControllerFindNewParams = {
+  limit?: number;
 };

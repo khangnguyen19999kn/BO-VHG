@@ -27,6 +27,9 @@ export const imagesControllerUploadFile = (
       formData.append("files", value),
     );
   }
+  if (imagesControllerUploadFileBody.folder !== undefined) {
+    formData.append("folder", imagesControllerUploadFileBody.folder);
+  }
 
   return customInstance<ImagesControllerUploadFile200>({
     url: `/images/upload`,

@@ -29,6 +29,7 @@ export default function EditorField<T extends FieldValues>({
   control,
   name,
   label,
+  folderName,
 }: IFieldProps<T>) {
   const editor = useRef<SunEditorCore>();
   const getSunEditorInstance = (sunEditor: SunEditorCore) => {
@@ -83,6 +84,7 @@ export default function EditorField<T extends FieldValues>({
     uploadImage({
       data: {
         files: uploadsFile,
+        folder: folderName,
       },
     })
       .then((res) => {
