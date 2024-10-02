@@ -34,3 +34,4 @@ export * from "./userDto";
 export * from "./userProfileDto";
 export * from "./userUpdateDTO";
 export * from "./usersResponseDto";
+export * from "./tResponseFindAllType";

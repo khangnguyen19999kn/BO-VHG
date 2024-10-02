@@ -74,6 +74,10 @@ export default function useTableInfo() {
       header: "Type",
     },
     {
+      accessorKey: "shortDescription",
+      header: "Short Description",
+    },
+    {
       accessorKey: "link",
       header: "Link to buy",
     },

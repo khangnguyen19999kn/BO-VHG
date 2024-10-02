@@ -133,6 +133,24 @@ export default function ProductDetailUpdate({
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="shortDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Mô tả ngắn cho sản phẩm (Dùng để hiển thị trong card)
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Nhập mô tả ngắn cho sản phẩm"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <EditorField
             control={form.control}
             name="description"

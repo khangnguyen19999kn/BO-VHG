@@ -22,6 +22,7 @@ import type {
   CreateProductDto,
   ProductsControllerFindByTypeParams,
   TResponse,
+  TResponseFindAllType,
   TResponseFindOne,
 } from "../../model";
 import { customInstance } from "../../mutator/custom-instance";
@@ -465,6 +466,131 @@ export function useProductsControllerFindNew<
   >;
 }): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getProductsControllerFindNewQueryOptions(options);
+
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
+
+  query.queryKey = queryOptions.queryKey;
+
+  return query;
+}
+
+export const productsControllerFindAllTypeOfProduct = (
+  signal?: AbortSignal,
+) => {
+  return customInstance<TResponseFindAllType>({
+    url: `/products/type`,
+    method: "GET",
+    signal,
+  });
+};
+
+export const getProductsControllerFindAllTypeOfProductQueryKey = () => {
+  return [`/products/type`] as const;
+};
+
+export const getProductsControllerFindAllTypeOfProductQueryOptions = <
+  TData = Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+      TError,
+      TData
+    >
+  >;
+}) => {
+  const { query: queryOptions } = options ?? {};
+
+  const queryKey =
+    queryOptions?.queryKey ??
+    getProductsControllerFindAllTypeOfProductQueryKey();
+
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>
+  > = ({ signal }) => productsControllerFindAllTypeOfProduct(signal);
+
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
+
+export type ProductsControllerFindAllTypeOfProductQueryResult = NonNullable<
+  Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>
+>;
+export type ProductsControllerFindAllTypeOfProductQueryError = unknown;
+
+export function useProductsControllerFindAllTypeOfProduct<
+  TData = Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+  TError = unknown,
+>(options: {
+  query: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      DefinedInitialDataOptions<
+        Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >;
+}): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useProductsControllerFindAllTypeOfProduct<
+  TData = Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+      TError,
+      TData
+    >
+  > &
+    Pick<
+      UndefinedInitialDataOptions<
+        Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+        TError,
+        TData
+      >,
+      "initialData"
+    >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useProductsControllerFindAllTypeOfProduct<
+  TData = Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+      TError,
+      TData
+    >
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+
+export function useProductsControllerFindAllTypeOfProduct<
+  TData = Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+  TError = unknown,
+>(options?: {
+  query?: Partial<
+    UseQueryOptions<
+      Awaited<ReturnType<typeof productsControllerFindAllTypeOfProduct>>,
+      TError,
+      TData
+    >
+  >;
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions =
+    getProductsControllerFindAllTypeOfProductQueryOptions(options);
 
   const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
     queryKey: QueryKey;

@@ -32,6 +32,7 @@ export default function ProductDetailCreate({
       name: "",
       price: "",
       description: "",
+      shortDescription: "",
       images: [],
       material: "",
       typeId: "",
@@ -121,6 +122,19 @@ export default function ProductDetailCreate({
                 <FormLabel>Link Sale</FormLabel>
                 <FormControl>
                   <Input placeholder="Nhập link mua sản phẩm" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="shortDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Mô tả ngắn cho sản phẩm (Dùng để hiển thị trong card)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Nhập mô tả ngắn cho sản phẩm" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

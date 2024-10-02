@@ -14,12 +14,14 @@ export interface CreateProductDto {
   images: ImageDto[];
   /** Link to buy product */
   link: string;
-  /** Main image URL of the product */
+  /** Material of the product */
   material: string;
   /** Name of the product */
   name: string;
   /** Price of the product */
   price: number;
+  /** Description of the product */
+  shortDescription: string;
   /** Available sizes of the product */
   sizes: string[];
   /** ID of the product type (e.g., 1 for Clothing) */
