@@ -40,6 +40,7 @@ export default function SelectTypeField<T extends FieldValues>({
               <SelectItem value="4">Trouser</SelectItem>
               <SelectItem value="5">Vest</SelectItem>
               <SelectItem value="6">Blazer</SelectItem>
+              <SelectItem value="7">Accessories</SelectItem>
             </SelectContent>
           </Select>
           <FormMessage />
