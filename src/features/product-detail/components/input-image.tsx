@@ -107,7 +107,11 @@ export default function InputMultiImage<T extends FieldValues>({
             ) : (
               imageList.map((item) => (
                 <div key={item.public_id} className="relative">
-                  <img key={item.public_id} src={item.url} className="w-32" />
+                  <img
+                    key={item.public_id}
+                    src={item.url}
+                    className="w-32 h-40"
+                  />
                   <button
                     type="button"
                     onClick={() => handleRemoveImage(item.public_id)}
