@@ -35,6 +35,7 @@ export default function BlogDetailCreate() {
     resolver: zodResolver(schemaDetailBlog),
     defaultValues: {
       title: "",
+      content:"",
       coverImage: {
         url: "",
         public_id: "",
