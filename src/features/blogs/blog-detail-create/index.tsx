@@ -1,5 +1,4 @@
 import { useBlogsControllerCreate } from "@/api/endpoints/blogs/blogs";
-import EditorField from "@/components/Editor/editor-field";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -36,7 +35,6 @@ export default function BlogDetailCreate() {
     resolver: zodResolver(schemaDetailBlog),
     defaultValues: {
       title: "",
-      content: "",
       coverImage: {
         url: "",
         public_id: "",
@@ -71,13 +69,6 @@ export default function BlogDetailCreate() {
             control={form.control}
             name="coverImage"
             label="Ảnh bìa của bài viết"
-            folderName="blogs"
-          />
-
-          <EditorField
-            control={form.control}
-            name="content"
-            label="Nội dung bài viết"
             folderName="blogs"
           />
 
