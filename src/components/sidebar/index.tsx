@@ -17,7 +17,7 @@ export default function SideBar() {
       path: "/users",
     },
     {
-      name: "Blogs Management",
+      name: "Art Work Management",
       path: "/blogs",
     },
     {
