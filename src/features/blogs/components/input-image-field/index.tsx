@@ -126,6 +126,7 @@ export default function InputImageField<T extends FieldValues>({
               <input
                 id="upload-image"
                 type="file"
+                accept="image/*"
                 className="hidden"
                 onChange={handleInputChange}
                 ref={inputRef}

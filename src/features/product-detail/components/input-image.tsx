@@ -129,6 +129,7 @@ export default function InputMultiImage<T extends FieldValues>({
                   id="upload-image"
                   type="file"
                   multiple
+                  accept="image/*"
                   className="hidden"
                   onChange={handleInputChange}
                 />
